@@ -1,23 +1,19 @@
 package com.gourmet.dreamkitpvp;
 
+import com.gourmet.dreamkitpvp.events.*;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 /*
 
 Ecco le vostre task, nei file che vi ho creato vi troverete approssivamente come dovete fare le cose.
-Potete modificare o creare nuovi file ma mantenete sempre questo flow. GL
+Potete modificare o creare nuovi file ma mantenete sempre questo flow.
 Task:
 
  - Respawn istantaneo.
- - Drop di oggetti TRANNE kit base (no item non incantati, frecce ecc.)
- - Asce che danneggiano di più l'armatura. (non devono fare più danno ai giocatori)
- - BowBoost per l'arco.
- - No autocombat.
- - Timer gapple, combat e enderpearl.
- - Sistema di combat.
- - Blocco comandi in combat.
+ - Combact log ( Blocco comandi etc... ).
  - Modalità Build.
- - Timer obs e ragnatele.
+ - Ragnatele.
 
 
  */
@@ -30,6 +26,13 @@ public final class DreamKitPvP extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        getServer().getPluginManager().registerEvents(new DropEvent(), this);
+        getServer().getPluginManager().registerEvents(new HitEvent(), this);
+        getServer().getPluginManager().registerEvents(new PlaceBlockEvent(), this);
+        getServer().getPluginManager().registerEvents(new QuitEvent(), this);
+        getServer().getPluginManager().registerEvents(new RespawnEvent(), this);
+        getServer().getPluginManager().registerEvents(new UseEvent(), this);
     }
 
 }
