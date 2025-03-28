@@ -38,10 +38,10 @@ public class BuildCMD implements CommandExecutor {
 
     private void toggleBuildMode(Player player) {
         if (buildModePlayers.contains(player)) {
-            player.sendMessage(Utils.color("&cRemove build mode"));
+            Utils.sendActionBar(player, Utils.color("&cRemove build mode"));
             buildModePlayers.remove(player);
         } else {
-            player.sendMessage(Utils.color("&eAdded to build mode"));
+            Utils.sendActionBar(player, Utils.color("&eAdded to build mode"));
             buildModePlayers.add(player);
         }
     }
