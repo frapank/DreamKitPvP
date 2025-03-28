@@ -1,36 +1,55 @@
 package com.gourmet.dreamkitpvp.events;
 
+import com.gourmet.dreamkitpvp.DreamKitPvP;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class HitEvent implements Listener {
 
+    private final FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+
     //Todo: Avvolte manda storto (fix)
     @EventHandler
-    public void onBowBoost(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Arrow)) return;
-        if (!(event.getEntity() instanceof Player)) return;
-
-        Arrow arrow = (Arrow) event.getDamager();
-        Player player = (Player) event.getEntity();
-
-        if (arrow.getShooter() instanceof Player && arrow.getShooter().equals(player)) {
-            ItemStack bow = player.getInventory().getItemInHand();
-            if (bow.getType() == Material.BOW && bow.getEnchantmentLevel(org.bukkit.enchantments.Enchantment.KNOCKBACK) > 0) {
-                applyBowBoost(player, arrow.getVelocity());
-            }
-        }
+    public void onShoot(EntityShootBowEvent e) {
+        LivingEntity livingEntity = e.getEntity();
+        Vector dir = livingEntity.getLocation().getDirection();
+        Arrow a = (Arrow)e.getProjectile();
+        double speed = a.getVelocity().length();
+        Vector vel = dir.multiply(speed);
+        a.setVelocity(vel);
     }
 
-    private void applyBowBoost(Player player, Vector arrowVelocity) {
-        Vector boost = arrowVelocity.multiply(1.5);
-        player.setVelocity(player.getVelocity().add(boost));
+    @EventHandler
+    public void onPlayerVelocity(PlayerVelocityEvent e) {
+        Player p = e.getPlayer();
+        Vector initialVelocity = e.getVelocity();
+        EntityDamageEvent event = p.getLastDamageCause();
+        if (event != null && !event.isCancelled() && event instanceof EntityDamageByEntityEvent) {
+            Entity damager = ((EntityDamageByEntityEvent)event).getDamager();
+            if (damager instanceof Arrow) {
+                Arrow a = (Arrow)damager;
+                if (a.getShooter().equals(p)) {
+                    double horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
+                    double verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
+                    double horizontalSpeed = Math.sqrt(initialVelocity.getX() * initialVelocity.getX() + initialVelocity.getZ() * initialVelocity.getZ()) * horizontalMultiplier;
+                    double verticalSpeed = initialVelocity.getY() * verticalMultiplier;
+                    Vector dir = a.getLocation().getDirection().normalize();
+                    Vector newVelocity = new Vector(-dir.getX() * horizontalSpeed, initialVelocity.getY() * verticalSpeed, dir.getZ() * horizontalSpeed);
+                    e.setVelocity(newVelocity);
+                }
+            }
+        }
     }
 }
