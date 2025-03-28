@@ -10,4 +10,5 @@
 - Sistema di combat.
 - Blocco comandi in combat.
 - Modalità Build.
-- Timer obs e ragnatele.
+- Timer ossidiana e ragnatele.
+- Stats
