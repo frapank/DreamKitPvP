@@ -1,3 +1,7 @@
 name: DreamKitPvP
 version: '${version}'
 main: com.gourmet.dreamkitpvp.DreamKitPvP
+
+commands:
+  build:
+    help: "/build"
