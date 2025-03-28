@@ -7,6 +7,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.*;
 
+//TODO: Da mettere tramite config
 public class DropEvent implements Listener {
 
     private final List<Material> blackListedMaterials =Arrays.asList(

@@ -1,38 +1,32 @@
 package com.gourmet.dreamkitpvp;
 
+import com.gourmet.dreamkitpvp.commands.BuildCMD;
 import com.gourmet.dreamkitpvp.events.*;
+import com.gourmet.dreamkitpvp.others.ConfigManager;
+import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
-/*
-
-Ecco le vostre task, nei file che vi ho creato vi troverete approssivamente come dovete fare le cose.
-Potete modificare o creare nuovi file ma mantenete sempre questo flow.
-Task:
-
- - Respawn istantaneo.
- - Combact log ( Blocco comandi etc... ).
- - Modalità Build.
- - Ragnatele.
-
-
- */
-
+import java.util.HashSet;
 
 public final class DreamKitPvP extends JavaPlugin {
 
-    public static DreamKitPvP instance;
+    @Getter private static DreamKitPvP instance;
+    @Getter private static HashSet<Player> buildModePlayer;
+    @Getter private static ConfigManager configManager;
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         instance = this;
+        buildModePlayer = new HashSet<>();
+        configManager = new ConfigManager();
 
+        getCommand("build").setExecutor(new BuildCMD());
         getServer().getPluginManager().registerEvents(new DropEvent(), this);
         getServer().getPluginManager().registerEvents(new HitEvent(), this);
         getServer().getPluginManager().registerEvents(new PlaceBlockEvent(), this);
-        getServer().getPluginManager().registerEvents(new QuitEvent(), this);
-        getServer().getPluginManager().registerEvents(new RespawnEvent(), this);
-        getServer().getPluginManager().registerEvents(new UseEvent(), this);
+        getServer().getPluginManager().registerEvents(new BreakBlockEvent(), this);
     }
 
 }
