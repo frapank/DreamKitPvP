@@ -1,7 +1,6 @@
 package com.gourmet.dreamkitpvp.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -13,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class HitEvent implements Listener {
