@@ -15,6 +15,7 @@ public class ConfigManager {
     private String reloadMessage;
     private double verticalMultiplier;
     private double horizontalMultiplier;
+    private int despawnTime;
 
     public ConfigManager(){
         reloadMessages();
@@ -29,8 +30,10 @@ public class ConfigManager {
             reloadMessage = config.getString("messages.reload");
             horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
             verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
+            despawnTime = config.getInt("despawn-time", 5);
         } catch (Exception e){
             Bukkit.getLogger().warning("Failed to load config: " + e);
+            despawnTime = 5;
         }
     }
 
