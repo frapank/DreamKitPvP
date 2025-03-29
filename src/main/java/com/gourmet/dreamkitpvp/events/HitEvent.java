@@ -35,19 +35,22 @@ public class HitEvent implements Listener {
         Player p = e.getPlayer();
         Vector initialVelocity = e.getVelocity();
         EntityDamageEvent event = p.getLastDamageCause();
-        if (event != null && !event.isCancelled() && event instanceof EntityDamageByEntityEvent) {
-            Entity damager = ((EntityDamageByEntityEvent)event).getDamager();
-            if (damager instanceof Arrow) {
-                Arrow a = (Arrow)damager;
-                if (a.getShooter().equals(p)) {
-                    double horizontalMultiplier = configManager.getHorizontalMultiplier();
-                    double verticalMultiplier = configManager.getVerticalMultiplier();
-                    double horizontalSpeed = Math.sqrt(initialVelocity.getX() * initialVelocity.getX() + initialVelocity.getZ() * initialVelocity.getZ()) * horizontalMultiplier;
-                    double verticalSpeed = initialVelocity.getY() * verticalMultiplier;
-                    Vector dir = a.getLocation().getDirection().normalize();
-                    Vector newVelocity = new Vector(-dir.getX() * horizontalSpeed, initialVelocity.getY() * verticalSpeed, dir.getZ() * horizontalSpeed);
-                    e.setVelocity(newVelocity);
-                }
+
+        if (event == null && event.isCancelled() && !(event instanceof EntityDamageByEntityEvent)) {
+            return;
+        }
+
+        Entity damager = ((EntityDamageByEntityEvent)event).getDamager();
+        if (damager instanceof Arrow) {
+            Arrow a = (Arrow)damager;
+            if (a.getShooter().equals(p)) {
+                double horizontalMultiplier = configManager.getHorizontalMultiplier();
+                double verticalMultiplier = configManager.getVerticalMultiplier();
+                double horizontalSpeed = Math.sqrt(initialVelocity.getX() * initialVelocity.getX() + initialVelocity.getZ() * initialVelocity.getZ()) * horizontalMultiplier;
+                double verticalSpeed = initialVelocity.getY() * verticalMultiplier;
+                Vector dir = a.getLocation().getDirection().normalize();
+                Vector newVelocity = new Vector(-dir.getX() * horizontalSpeed, initialVelocity.getY() * verticalSpeed, dir.getZ() * horizontalSpeed);
+                e.setVelocity(newVelocity);
             }
         }
     }
