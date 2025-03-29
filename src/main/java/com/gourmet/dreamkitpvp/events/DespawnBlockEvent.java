@@ -3,6 +3,7 @@ package com.gourmet.dreamkitpvp.events;
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -12,7 +13,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class DespawnBlockEvent implements Listener {
 
     private final DreamKitPvP plugin;
-    private final int despawnTime = 15;
+    private final FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+    private final int despawnTime = config.getInt("despawn-time");
 
     public DespawnBlockEvent(DreamKitPvP plugin) {
         this.plugin = plugin;
