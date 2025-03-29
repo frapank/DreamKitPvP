@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 
-//TODO: Fate la modalita build per lo staff ( Attivabile e disattivabile )
 public class BuildCMD implements CommandExecutor {
 
     private final HashSet<Player> buildModePlayers = DreamKitPvP.getBuildModePlayer();

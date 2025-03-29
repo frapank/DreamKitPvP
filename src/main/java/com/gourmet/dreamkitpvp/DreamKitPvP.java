@@ -32,6 +32,7 @@ public final class DreamKitPvP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlaceBlockEvent(), this);
         getServer().getPluginManager().registerEvents(new BreakBlockEvent(), this);
         getServer().getPluginManager().registerEvents(new DespawnBlockEvent(), this);
+        getServer().getPluginManager().registerEvents(new DamagerIndicator(), this);
     }
 
 }

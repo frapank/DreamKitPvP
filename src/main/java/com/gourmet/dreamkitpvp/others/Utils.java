@@ -24,10 +24,6 @@ public class Utils {
 
     public static void spawnParticle(Location location, EnumParticle particle) {
 
-        if(config.getString("particel-up").isEmpty()){
-            return;
-        }
-
         try {
             float x = (float) location.getX();
             float y = (float) location.getY();
