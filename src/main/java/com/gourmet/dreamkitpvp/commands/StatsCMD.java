@@ -28,7 +28,7 @@ public class StatsCMD implements CommandExecutor {
             player.sendMessage(Utils.color(configManager.getNoPermission()));
             return true;
         } else {
-            player.sendMessage(config.getString("stats-message"));
+            player.sendMessage("Loreh non ce nessun messaggio nel config");
         }
 
 

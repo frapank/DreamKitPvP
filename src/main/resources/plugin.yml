@@ -7,3 +7,5 @@ commands:
     help: "/build"
   stats:
     help: "/stats"
+  kit-reload:
+    help: "/reload"

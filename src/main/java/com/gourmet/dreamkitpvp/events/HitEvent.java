@@ -1,6 +1,7 @@
 package com.gourmet.dreamkitpvp.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.gourmet.dreamkitpvp.others.ConfigManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -16,7 +17,7 @@ import org.bukkit.util.Vector;
 
 public class HitEvent implements Listener {
 
-    private final FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+    private final ConfigManager configManager = DreamKitPvP.getConfigManager();
 
     //Todo: Avvolte manda storto (fix)
     @EventHandler
@@ -39,8 +40,8 @@ public class HitEvent implements Listener {
             if (damager instanceof Arrow) {
                 Arrow a = (Arrow)damager;
                 if (a.getShooter().equals(p)) {
-                    double horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
-                    double verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
+                    double horizontalMultiplier = configManager.getHorizontalMultiplier();
+                    double verticalMultiplier = configManager.getVerticalMultiplier();
                     double horizontalSpeed = Math.sqrt(initialVelocity.getX() * initialVelocity.getX() + initialVelocity.getZ() * initialVelocity.getZ()) * horizontalMultiplier;
                     double verticalSpeed = initialVelocity.getY() * verticalMultiplier;
                     Vector dir = a.getLocation().getDirection().normalize();

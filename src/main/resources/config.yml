@@ -1,3 +1,8 @@
+settings:
+  horizontal-multiplier: 1.0
+  vertical-multiplier: 1.0
+
 messages:
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"
+  reload: "&aServer reloaded"

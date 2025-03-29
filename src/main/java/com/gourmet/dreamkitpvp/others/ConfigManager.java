@@ -8,10 +8,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 @Getter
 public class ConfigManager {
 
-    private final FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+    private FileConfiguration config = DreamKitPvP.getInstance().getConfig();
 
     private String cooldownItems;
     private String noPermission;
+    private String reloadMessage;
+    private double verticalMultiplier;
+    private double horizontalMultiplier;
 
     public ConfigManager(){
         reloadMessages();
@@ -19,9 +22,13 @@ public class ConfigManager {
 
     public void reloadMessages(){
         DreamKitPvP.getInstance().reloadConfig();
+        config = DreamKitPvP.getInstance().getConfig();
         try {
             cooldownItems = config.getString("messages.cooldown");
             noPermission = config.getString("messages.no-perm");
+            reloadMessage = config.getString("messages.reload");
+            horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
+            verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
         } catch (Exception e){
             Bukkit.getLogger().warning("Failed to load config: " + e);
         }
