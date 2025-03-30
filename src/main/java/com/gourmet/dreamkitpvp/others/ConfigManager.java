@@ -3,7 +3,11 @@ package com.gourmet.dreamkitpvp.others;
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 public class ConfigManager {
@@ -16,6 +20,8 @@ public class ConfigManager {
     private double verticalMultiplier;
     private double horizontalMultiplier;
     private int despawnTime;
+    private Set<Material> bannedDrops = new HashSet<>();
+    private boolean removeUnenchanted;
 
     public ConfigManager(){
         reloadMessages();
@@ -31,10 +37,28 @@ public class ConfigManager {
             horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
             verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
             despawnTime = config.getInt("despawn-time", 5);
-        } catch (Exception e){
+            bannedDrops.clear();
+            for (String itemName : config.getStringList("banned-drops")) {
+                try {
+                    bannedDrops.add(Material.valueOf(itemName.toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    Bukkit.getLogger().warning("Materiale non riconosciuto : " + itemName);
+                }
+            }
+            removeUnenchanted = config.getBoolean("remove-unenchanted", true);
+        }
+        catch (Exception e){
             Bukkit.getLogger().warning("Failed to load config: " + e);
             despawnTime = 5;
         }
+    }
+
+    public boolean isBannedDrop(Material material) {
+        return bannedDrops.contains(material);
+    }
+
+    public boolean shouldRemoveUnenchanted() {
+        return removeUnenchanted;
     }
 
 
