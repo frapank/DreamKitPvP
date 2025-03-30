@@ -8,8 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import static org.spigotmc.SpigotConfig.config;
-
 public class Utils {
     public static String color(String msg) {
         return msg == null ? " " : ChatColor.translateAlternateColorCodes('&', msg);
