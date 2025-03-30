@@ -4,6 +4,15 @@ settings:
 
 block-despawntime: 1
 
+banned-drops:
+  - ARROW
+  - DIAMOND_HELMET
+  - DIAMOND_CHESTPLATE
+  - DIAMOND_LEGGINGS
+  - DIAMOND_BOOTS
+
+remove-unenchanted: false
+
 messages:
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"
