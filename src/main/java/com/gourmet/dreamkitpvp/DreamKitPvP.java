@@ -1,6 +1,8 @@
 package com.gourmet.dreamkitpvp;
 
 import com.gourmet.dreamkitpvp.commands.BuildCMD;
+import com.gourmet.dreamkitpvp.commands.ReloadCMD;
+import com.gourmet.dreamkitpvp.commands.StatsCMD;
 import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
 import lombok.Getter;
@@ -23,11 +25,15 @@ public final class DreamKitPvP extends JavaPlugin {
         configManager = new ConfigManager();
 
         getCommand("build").setExecutor(new BuildCMD());
+        getCommand("stats").setExecutor(new StatsCMD());
+        getCommand("kit-reload").setExecutor(new ReloadCMD());
         getServer().getPluginManager().registerEvents(new DropEvent(), this);
         getServer().getPluginManager().registerEvents(new HitEvent(), this);
         getServer().getPluginManager().registerEvents(new PlaceBlockEvent(), this);
         getServer().getPluginManager().registerEvents(new BreakBlockEvent(), this);
         getServer().getPluginManager().registerEvents(new AxeHitEvent(), this);
+        getServer().getPluginManager().registerEvents(new DespawnBlockEvent(), this);
+        getServer().getPluginManager().registerEvents(new DamagerIndicator(), this);
     }
 
 }

@@ -30,13 +30,15 @@ public class AxeHitEvent implements Listener {
     }
 
     private void damage(ItemStack item) {
-        if (item == null | item.getType() == Material.AIR)
-            return;
+        if (item == null | item.getType() == Material.AIR) return;
+
         short newDurability = (short) (item.getDurability() + 5);
-        if (newDurability >= item.getType().getMaxDurability())
+
+        if (newDurability >= item.getType().getMaxDurability()) {
             item.setType(Material.AIR);
-        else
+        } else {
             item.setDurability(newDurability);
+        }
     }
 
 
