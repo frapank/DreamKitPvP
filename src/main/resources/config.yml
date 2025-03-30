@@ -2,7 +2,7 @@ settings:
   horizontal-multiplier: 1.0
   vertical-multiplier: 1.0
 
-block-despawntime: 1
+block-despawntime: 5
 
 banned-drops:
   - ARROW
