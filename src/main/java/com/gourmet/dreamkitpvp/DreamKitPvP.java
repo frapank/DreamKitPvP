@@ -24,6 +24,10 @@ public final class DreamKitPvP extends JavaPlugin {
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
 
+        initCommandsAndEvents();
+    }
+
+    private void initCommandsAndEvents(){
         getCommand("build").setExecutor(new BuildCMD());
         getCommand("stats").setExecutor(new StatsCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
