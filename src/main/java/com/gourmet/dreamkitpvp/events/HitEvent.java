@@ -35,7 +35,7 @@ public class HitEvent implements Listener {
         Vector initialVelocity = e.getVelocity();
         EntityDamageEvent event = p.getLastDamageCause();
 
-        if (event == null && event.isCancelled() && !(event instanceof EntityDamageByEntityEvent)) {
+        if (event == null || event.isCancelled() || !(event instanceof EntityDamageByEntityEvent)) {
             return;
         }
 
