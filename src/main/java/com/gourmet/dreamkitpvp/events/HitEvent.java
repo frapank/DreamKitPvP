@@ -2,7 +2,6 @@ package com.gourmet.dreamkitpvp.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
