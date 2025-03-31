@@ -7,9 +7,11 @@ import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashSet;
+import javax.xml.bind.Unmarshaller;
+import java.util.*;
 
 public final class DreamKitPvP extends JavaPlugin {
 
@@ -31,13 +33,17 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("build").setExecutor(new BuildCMD());
         getCommand("stats").setExecutor(new StatsCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
-        getServer().getPluginManager().registerEvents(new DropEvent(), this);
-        getServer().getPluginManager().registerEvents(new HitEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlaceBlockEvent(), this);
-        getServer().getPluginManager().registerEvents(new BreakBlockEvent(), this);
-        getServer().getPluginManager().registerEvents(new AxeHitEvent(), this);
-        getServer().getPluginManager().registerEvents(new DespawnBlockEvent(), this);
-        getServer().getPluginManager().registerEvents(new DamagerIndicator(), this);
+
+        List<Listener> events = Arrays.asList(new InstantRespawnEvent(),
+                new DropEvent(),
+                new HitEvent(),
+                new PlaceBlockEvent(),
+                new BreakBlockEvent(),
+                new AxeHitEvent(),
+                new DespawnBlockEvent(),
+                new DamagerIndicator());
+        events.forEach(event -> {getServer().getPluginManager().registerEvents(event, this);});
+
     }
 
 }
