@@ -21,12 +21,14 @@ public final class DreamKitPvP extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getLogger().info("DreamKitPvP Starting...");
         saveDefaultConfig();
         instance = this;
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
 
         initCommandsAndEvents();
+        getLogger().info("DreamKitPvP Started!");
     }
 
     private void initCommandsAndEvents(){
