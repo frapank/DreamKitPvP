@@ -12,3 +12,4 @@
 - Modalità Build.
 - Timer ossidiana e ragnatele.
 - Stats
+- Road che ha 4 colpi, quando li finisci ad ogni 2 hit, ricarichi un colpo di road ( Visualizabile tramite la durabilita della road )
