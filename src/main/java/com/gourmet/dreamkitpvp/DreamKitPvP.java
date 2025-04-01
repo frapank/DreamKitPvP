@@ -32,7 +32,7 @@ public final class DreamKitPvP extends JavaPlugin {
 
     private void initCommandsAndEvents(){
         getCommand("build").setExecutor(new BuildCMD());
-        getCommand("stats").setExecutor(new StatsCMD());
+        //getCommand("stats").setExecutor(new StatsCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
 
         List<Listener> events = Arrays.asList(new InstantRespawnEvent(),

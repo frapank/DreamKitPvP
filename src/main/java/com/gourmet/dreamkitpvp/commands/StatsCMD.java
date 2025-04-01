@@ -18,21 +18,21 @@ public class StatsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if(!(sender instanceof Player)){
-            return false;
-        }
-
-        Player player = (Player) sender;
-
-        if(!player.hasPermission("dreamkitpvp.stats")){
-            player.sendMessage(Utils.color(configManager.getNoPermission()));
-            return true;
-        } else {
-            player.sendMessage("Loreh non ce nessun messaggio nel config");
-        }
-
-
-        return true;
+        //if(!(sender instanceof Player)){
+        //    return false;
+        //}
+        //
+        //Player player = (Player) sender;
+        //
+        //if(!player.hasPermission("dreamkitpvp.stats")){
+        //    player.sendMessage(Utils.color(configManager.getNoPermission()));
+        //    return true;
+        //} else {
+        //    player.sendMessage("Loreh non ce nessun messaggio nel config");
+        //}
+        //
+        //
+        //return true;
 
     }
 

@@ -5,7 +5,5 @@ main: com.gourmet.dreamkitpvp.DreamKitPvP
 commands:
   build:
     help: "/build"
-  stats:
-    help: "/stats"
   kit-reload:
     help: "/reload"
