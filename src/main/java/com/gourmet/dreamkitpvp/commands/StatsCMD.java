@@ -33,7 +33,7 @@ public class StatsCMD implements CommandExecutor {
         //
         //
         //return true;
-        return false;
+        return true;
     }
 
 }

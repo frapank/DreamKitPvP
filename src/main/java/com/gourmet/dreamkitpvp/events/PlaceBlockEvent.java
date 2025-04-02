@@ -22,6 +22,7 @@ public class PlaceBlockEvent implements Listener {
             event.setCancelled(true);
         }
     }
+
     private void spawnParticle(Block block){
         if (block != null && block.getLocation() != null) {
             Location loc = new Location(
