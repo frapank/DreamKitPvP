@@ -9,22 +9,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class AxeHitEvent implements Listener {
+
+    private final int[] ARMOR_SLOTS = {36, 37, 38, 39};
+
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) {
 
         if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player))
             return;
 
-        Player player = (Player) e.getEntity();
-        Player damager = (Player) e.getDamager();
-        ItemStack damagerItem = damager.getInventory().getItemInHand();
-        Inventory inventory = player.getInventory();
+        Player victim = (Player) e.getEntity();
+        Player attacker = (Player) e.getDamager();
+        ItemStack attackerItem = attacker.getInventory().getItemInHand();
+        Inventory inventory = victim.getInventory();
 
-        if (isAxe(damagerItem.getType())) {
-            damage(inventory.getItem(39));
-            damage(inventory.getItem(38));
-            damage(inventory.getItem(37));
-            damage(inventory.getItem(36));
+        if (isAxe(attackerItem.getType())) {
+            for(int slot : ARMOR_SLOTS){
+                damage(inventory.getItem(slot));
+            }
         }
 
     }
@@ -43,7 +45,7 @@ public class AxeHitEvent implements Listener {
 
 
     private boolean isAxe(Material material) {
-        return material == Material.IRON_AXE || material == Material.DIAMOND_AXE;
+        return material == Material.DIAMOND_AXE;
     }
 
 }
