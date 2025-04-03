@@ -3,6 +3,7 @@ package com.gourmet.dreamkitpvp;
 import com.gourmet.dreamkitpvp.commands.BuildCMD;
 import com.gourmet.dreamkitpvp.commands.ReloadCMD;
 import com.gourmet.dreamkitpvp.events.*;
+import com.gourmet.dreamkitpvp.others.CombatManager;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ public final class DreamKitPvP extends JavaPlugin {
     @Getter private static DreamKitPvP instance;
     @Getter private static HashSet<Player> buildModePlayer;
     @Getter private static ConfigManager configManager;
+    @Getter private static CombatManager combatManager;
 
     @Override
     public void onEnable() {
@@ -23,6 +25,7 @@ public final class DreamKitPvP extends JavaPlugin {
 
         saveDefaultConfig();
         instance = this;
+        combatManager = new CombatManager();
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
 
@@ -35,6 +38,7 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("kit-reload").setExecutor(new ReloadCMD());
 
         List<Listener> events = Arrays.asList(new InstantRespawnEvent(),
+                new CombactLogEvent(),
                 new DropEvent(),
                 new HitEvent(),
                 new PlaceBlockEvent(),
