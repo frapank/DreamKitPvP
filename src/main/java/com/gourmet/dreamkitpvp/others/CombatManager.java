@@ -48,4 +48,8 @@ public class CombatManager {
         long remaining = combatEndTimes.get(playerId) - System.currentTimeMillis();
         return remaining > 0 ? remaining : 0;
     }
+
+    public boolean isPlayerInCombat(Player player){
+        return combatTasks.containsKey(player.getUniqueId());
+    }
 }
