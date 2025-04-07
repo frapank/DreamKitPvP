@@ -33,7 +33,7 @@ public final class DreamKitPvP extends JavaPlugin {
         configManager = new ConfigManager();
 
         initCommandsAndEvents();
-        getLogger().info("DreamKitPvP Started");
+        getLogger().info("DreamKitPvP Started!");
     }
 
     private void initCommandsAndEvents(){
