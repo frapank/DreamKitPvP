@@ -16,11 +16,11 @@ public class ReloadCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if(!(sender instanceof Player)) return false;
+        if (!(sender instanceof Player)) return false;
 
         Player player = (Player) sender;
 
-        if(!player.hasPermission("dreamkitpvp.reload")){
+        if (!player.hasPermission("dreamkitpvp.reload")) {
             player.sendMessage(Utils.color(configManager.getNoPermission()));
             return true;
         }
