@@ -18,7 +18,6 @@ public class HitEvent implements Listener {
 
     private final ConfigManager configManager = DreamKitPvP.getConfigManager();
 
-    //Todo: Avvolte manda storto (fix)
     @EventHandler
     public void onShoot(EntityShootBowEvent e) {
         LivingEntity livingEntity = e.getEntity();
