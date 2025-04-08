@@ -18,13 +18,13 @@ public class BuildCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if(!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             return false;
         }
 
         Player player = (Player) sender;
 
-        if(!player.hasPermission("dreamkitpvp.admin")){
+        if (!player.hasPermission("dreamkitpvp.admin")) {
             player.sendMessage(Utils.color(configManager.getNoPermission()));
             return true;
         }

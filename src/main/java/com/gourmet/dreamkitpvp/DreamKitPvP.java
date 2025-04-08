@@ -11,15 +11,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 public final class DreamKitPvP extends JavaPlugin {
 
-    @Getter private static DreamKitPvP instance;
-    @Getter private static HashSet<Player> buildModePlayer;
-    @Getter private static ConfigManager configManager;
-    @Getter private static CombatManager combatManager;
-    @Getter private static CooldownManager cooldownManager;
+    @Getter
+    private static DreamKitPvP instance;
+    @Getter
+    private static HashSet<Player> buildModePlayer;
+    @Getter
+    private static ConfigManager configManager;
+    @Getter
+    private static CombatManager combatManager;
+    @Getter
+    private static CooldownManager cooldownManager;
 
     @Override
     public void onEnable() {
@@ -36,21 +43,14 @@ public final class DreamKitPvP extends JavaPlugin {
         getLogger().info("DreamKitPvP Started!");
     }
 
-    private void initCommandsAndEvents(){
+    private void initCommandsAndEvents() {
         getCommand("build").setExecutor(new BuildCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
 
-        List<Listener> events = Arrays.asList(new InstantRespawnEvent(),
-                new CooldownItems(),
-                new CombactLogEvent(),
-                new DropEvent(),
-                new HitEvent(),
-                new PlaceBlockEvent(),
-                new BreakBlockEvent(),
-                new AxeHitEvent(),
-                new DespawnBlockEvent(),
-                new DamagerIndicator());
-        events.forEach(event -> {getServer().getPluginManager().registerEvents(event, this);});
+        List<Listener> events = Arrays.asList(new InstantRespawnEvent(), new CooldownItems(), new CombactLogEvent(), new DropEvent(), new HitEvent(), new PlaceBlockEvent(), new BreakBlockEvent(), new AxeHitEvent(), new DespawnBlockEvent(), new DamagerIndicator());
+        events.forEach(event -> {
+            getServer().getPluginManager().registerEvents(event, this);
+        });
 
     }
 
