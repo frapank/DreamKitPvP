@@ -18,8 +18,7 @@ public class InstantRespawnEvent implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                ((CraftPlayer) player).getHandle().playerConnection
-                        .a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
+                ((CraftPlayer) player).getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
             }
         }.runTaskLater(DreamKitPvP.getInstance(), 2L);
     }

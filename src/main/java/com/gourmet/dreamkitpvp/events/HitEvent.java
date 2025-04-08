@@ -22,7 +22,7 @@ public class HitEvent implements Listener {
     public void onShoot(EntityShootBowEvent e) {
         LivingEntity livingEntity = e.getEntity();
         Vector dir = livingEntity.getLocation().getDirection();
-        Arrow a = (Arrow)e.getProjectile();
+        Arrow a = (Arrow) e.getProjectile();
         double speed = a.getVelocity().length();
         Vector vel = dir.multiply(speed);
         a.setVelocity(vel);
@@ -38,9 +38,9 @@ public class HitEvent implements Listener {
             return;
         }
 
-        Entity damager = ((EntityDamageByEntityEvent)event).getDamager();
+        Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
         if (damager instanceof Arrow) {
-            Arrow a = (Arrow)damager;
+            Arrow a = (Arrow) damager;
             if (a.getShooter().equals(p)) {
                 double horizontalMultiplier = configManager.getHorizontalMultiplier();
                 double verticalMultiplier = configManager.getVerticalMultiplier();

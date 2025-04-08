@@ -29,8 +29,7 @@ public class CombactLogEvent implements Listener {
                     combatManager.startCombat(shooter);
                 }
             }
-        }
-        else if (event.getDamager() instanceof Player) {
+        } else if (event.getDamager() instanceof Player) {
             Player damager = (Player) event.getDamager();
             combatManager.startCombat(damaged);
             combatManager.startCombat(damager);

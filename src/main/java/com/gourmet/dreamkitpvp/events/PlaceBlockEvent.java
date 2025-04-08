@@ -14,23 +14,17 @@ public class PlaceBlockEvent implements Listener {
     @EventHandler
     public void placeBlockEvent(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if (block.getType() == Material.OBSIDIAN || block.getType() == Material.WEB)
-            return;
+        if (block.getType() == Material.OBSIDIAN || block.getType() == Material.WEB) return;
 
-        if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())){
+        if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())) {
             spawnParticle(block);
             event.setCancelled(true);
         }
     }
 
-    private void spawnParticle(Block block){
+    private void spawnParticle(Block block) {
         if (block != null && block.getLocation() != null) {
-            Location loc = new Location(
-                    block.getWorld(),
-                    block.getX() + 0.500,
-                    block.getY() + 0.500,
-                    block.getZ() + 0.500
-            );
+            Location loc = new Location(block.getWorld(), block.getX() + 0.500, block.getY() + 0.500, block.getZ() + 0.500);
             Utils.spawnParticle(loc, EnumParticle.CLOUD);
         }
     }

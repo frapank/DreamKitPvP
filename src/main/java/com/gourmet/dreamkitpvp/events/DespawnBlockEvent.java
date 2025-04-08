@@ -20,7 +20,7 @@ public class DespawnBlockEvent implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if(builderPlayers.contains(e.getPlayer())){
+        if (builderPlayers.contains(e.getPlayer())) {
             return;
         }
         Block block = e.getBlock();
