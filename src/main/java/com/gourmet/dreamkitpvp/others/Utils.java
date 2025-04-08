@@ -32,19 +32,12 @@ public class Utils {
             float speed = 0;
             int count = 1;
 
-            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                    particle,
-                    true,
-                    x, y, z,
-                    offsetX, offsetY, offsetZ,
-                    speed,
-                    count
-            );
+            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, true, x, y, z, offsetX, offsetY, offsetZ, speed, count);
 
             for (Player user : Bukkit.getOnlinePlayers()) {
                 ((CraftPlayer) user).getHandle().playerConnection.sendPacket(packet);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             DreamKitPvP.getInstance().getLogger().warning("Error in particel-up config:" + e);
         }
     }
