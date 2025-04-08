@@ -49,7 +49,7 @@ public class CooldownManager {
         return remaining > 0 ? remaining : 0;
     }
 
-    public boolean isPlayerInCooldown(Player player){
+    public boolean isPlayerInCooldown(Player player) {
         return combatTasks.containsKey(player.getUniqueId());
     }
 }
