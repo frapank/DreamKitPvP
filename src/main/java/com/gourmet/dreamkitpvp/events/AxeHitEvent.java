@@ -15,8 +15,7 @@ public class AxeHitEvent implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) {
 
-        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player))
-            return;
+        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) return;
 
         Player victim = (Player) e.getEntity();
         Player attacker = (Player) e.getDamager();
@@ -24,7 +23,7 @@ public class AxeHitEvent implements Listener {
         Inventory inventory = victim.getInventory();
 
         if (isAxe(attackerItem.getType())) {
-            for(int slot : ARMOR_SLOTS){
+            for (int slot : ARMOR_SLOTS) {
                 damage(inventory.getItem(slot));
             }
         }

@@ -8,8 +8,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 public class BreakBlockEvent implements Listener {
 
     @EventHandler
-    public void onBreakBlock(BlockBreakEvent event){
-        if(!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())){
+    public void onBreakBlock(BlockBreakEvent event) {
+        if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
