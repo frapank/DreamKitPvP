@@ -13,7 +13,7 @@ public class CombatManager {
     private final HashMap<UUID, BukkitTask> combatTasks;
     private final HashMap<UUID, Long> combatEndTimes;
 
-    public CombatManager(){
+    public CombatManager() {
         combatTasks = new HashMap<>();
         combatEndTimes = new HashMap<>();
     }
@@ -49,7 +49,7 @@ public class CombatManager {
         return remaining > 0 ? remaining : 0;
     }
 
-    public boolean isPlayerInCombat(Player player){
+    public boolean isPlayerInCombat(Player player) {
         return combatTasks.containsKey(player.getUniqueId());
     }
 }
