@@ -30,7 +30,7 @@ public final class DreamKitPvP extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("DreamKitPvP Starting...");
+        getLogger().info("DreamKitPvP Startin...");
 
         saveDefaultConfig();
         instance = this;
