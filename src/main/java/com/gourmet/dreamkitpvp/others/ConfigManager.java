@@ -54,7 +54,7 @@ public class ConfigManager {
             try {
                 bannedDrops.add(Material.valueOf(itemName.toUpperCase()));
             } catch (IllegalArgumentException e) {
-                Bukkit.getLogger().warning("Materiale non riconosciuto : " + itemName);
+                Bukkit.getLogger().warning("Unknown material : " + itemName);
             }
         }
     }
