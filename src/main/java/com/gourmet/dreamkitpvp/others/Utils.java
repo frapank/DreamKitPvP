@@ -38,7 +38,7 @@ public class Utils {
                 ((CraftPlayer) user).getHandle().playerConnection.sendPacket(packet);
             }
         } catch (Exception e) {
-            DreamKitPvP.getInstance().getLogger().warning("Error in particel-up config:" + e);
+            DreamKitPvP.getInstance().getLogger().warning("Error:" + e);
         }
     }
 
