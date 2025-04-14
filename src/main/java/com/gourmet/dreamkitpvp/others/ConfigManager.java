@@ -24,6 +24,7 @@ public class ConfigManager {
     public double spawnX;
     public double spawnY;
     public double spawnZ;
+    public String spawnTeleportMessage;
 
     public ConfigManager() {
         reloadMessages();
@@ -43,6 +44,7 @@ public class ConfigManager {
             spawnX = config.getDouble("spawn-x", 1.0D);
             spawnY = config.getDouble("spawn-y", 1.0D);
             spawnZ = config.getDouble("spawn-z", 1.0D);
+            spawnTeleportMessage = config.getString("spawn-tp-message");
 
             initDrops();
         } catch (Exception e) {
