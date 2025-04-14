@@ -31,11 +31,11 @@ public class CombatManager {
         BukkitTask task = Bukkit.getScheduler().runTaskLater(DreamKitPvP.getInstance(), () -> {
             combatTasks.remove(playerId);
             combatEndTimes.remove(playerId);
-            player.sendMessage("Sei fuori dal combattimento.");
+            player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getOutCombatMessage()));
         }, 200L);
 
         combatTasks.put(playerId, task);
-        player.sendMessage("Sei in combattimento!");
+        player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getCombatMessage()));
     }
 
     public long getRemainingCombatTime(Player player) {

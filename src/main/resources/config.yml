@@ -14,6 +14,9 @@ banned-drops:
 remove-unenchanted: false
 
 messages:
+  prefix: "&f[&e☾&f] &8> "
+  out-combat: "&eSei uscito dal combat"
+  in-combat: "&eSei in combat"
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"
   reload: "&aServer reloaded"
