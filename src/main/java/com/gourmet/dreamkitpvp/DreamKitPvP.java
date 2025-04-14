@@ -47,7 +47,18 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("build").setExecutor(new BuildCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
 
-        List<Listener> events = Arrays.asList(new InstantRespawnEvent(), new CooldownItems(), new CombactLogEvent(), new DropEvent(), new HitEvent(), new PlaceBlockEvent(), new BreakBlockEvent(), new AxeHitEvent(), new DespawnBlockEvent(), new DamagerIndicator());
+        List<Listener> events = Arrays.asList(
+                new LeaveEvent(),
+                new InstantRespawnEvent(),
+                new CooldownItems(),
+                new CombactLogEvent(),
+                new DropEvent(),
+                new HitEvent(),
+                new PlaceBlockEvent(),
+                new BreakBlockEvent(),
+                new AxeHitEvent(),
+                new DespawnBlockEvent(),
+                new DamagerIndicator());
         events.forEach(event -> {
             getServer().getPluginManager().registerEvents(event, this);
         });

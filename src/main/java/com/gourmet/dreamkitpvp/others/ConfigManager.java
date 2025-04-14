@@ -14,9 +14,12 @@ public class ConfigManager {
 
     private final Set<Material> bannedDrops = new HashSet<>();
     private FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+    private String prefix;
     private String cooldownItems;
     private String noPermission;
     private String reloadMessage;
+    private String combatMessage;
+    private String outCombatMessage;
     private double verticalMultiplier;
     private double horizontalMultiplier;
     private int despawnTime;
@@ -30,9 +33,12 @@ public class ConfigManager {
         DreamKitPvP.getInstance().reloadConfig();
         config = DreamKitPvP.getInstance().getConfig();
         try {
-            cooldownItems = config.getString("messages.cooldown");
-            noPermission = config.getString("messages.no-perm");
-            reloadMessage = config.getString("messages.reload");
+            prefix = config.getString("messages.prefix");
+            outCombatMessage = prefix + config.getString("messages.out-combat");
+            combatMessage = prefix + config.getString("messages.in-combat");
+            cooldownItems = prefix + config.getString("messages.cooldown");
+            noPermission = prefix + config.getString("messages.no-perm");
+            reloadMessage = prefix + config.getString("messages.reload");
             horizontalMultiplier = config.getDouble("horizontal-multiplier", 1.0D);
             verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
             despawnTime = config.getInt("despawn-time", 5);
