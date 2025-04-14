@@ -7,3 +7,5 @@ commands:
     help: "/build"
   kit-reload:
     help: "/reload"
+  spawn:
+    help: "/spawn"

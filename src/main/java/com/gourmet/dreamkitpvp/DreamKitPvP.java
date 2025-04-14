@@ -2,6 +2,7 @@ package com.gourmet.dreamkitpvp;
 
 import com.gourmet.dreamkitpvp.commands.BuildCMD;
 import com.gourmet.dreamkitpvp.commands.ReloadCMD;
+import com.gourmet.dreamkitpvp.commands.SpawnCMD;
 import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.CombatManager;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
@@ -46,6 +47,7 @@ public final class DreamKitPvP extends JavaPlugin {
     private void initCommandsAndEvents() {
         getCommand("build").setExecutor(new BuildCMD());
         getCommand("kit-reload").setExecutor(new ReloadCMD());
+        getCommand("spawn").setExecutor(new SpawnCMD());
 
         List<Listener> events = Arrays.asList(new InstantRespawnEvent(), new CooldownItems(), new CombactLogEvent(), new DropEvent(), new HitEvent(), new PlaceBlockEvent(), new BreakBlockEvent(), new AxeHitEvent(), new DespawnBlockEvent(), new DamagerIndicator());
         events.forEach(event -> {

@@ -13,6 +13,10 @@ banned-drops:
 
 remove-unenchanted: false
 
+spawn-x: 0.0
+spawn-y: 60.0
+spawn-z: 0.0
+
 messages:
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"

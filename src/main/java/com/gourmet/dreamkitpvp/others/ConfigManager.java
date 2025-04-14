@@ -21,6 +21,9 @@ public class ConfigManager {
     private double horizontalMultiplier;
     private int despawnTime;
     private boolean removeUnenchanted;
+    public double spawnX;
+    public double spawnY;
+    public double spawnZ;
 
     public ConfigManager() {
         reloadMessages();
@@ -37,6 +40,10 @@ public class ConfigManager {
             verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
             despawnTime = config.getInt("despawn-time", 5);
             removeUnenchanted = config.getBoolean("remove-unenchanted", true);
+            spawnX = config.getDouble("spawn-x", 1.0D);
+            spawnY = config.getDouble("spawn-y", 1.0D);
+            spawnZ = config.getDouble("spawn-z", 1.0D);
+
             initDrops();
         } catch (Exception e) {
             Bukkit.getLogger().warning("Failed to load config: " + e);
