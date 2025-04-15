@@ -13,9 +13,10 @@ banned-drops:
 
 remove-unenchanted: false
 
-spawn-x: 0.0
-spawn-y: 60.0
-spawn-z: 0.0
+spawn:
+  x: 0.0
+  y: 60.0
+  z: 0.0
 spawn-tp-message: "&aSei stato teletrasportato allo spawn!"
 
 messages:

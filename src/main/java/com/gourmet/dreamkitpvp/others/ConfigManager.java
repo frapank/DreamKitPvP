@@ -41,9 +41,9 @@ public class ConfigManager {
             verticalMultiplier = config.getDouble("vertical-multiplier", 1.0D);
             despawnTime = config.getInt("despawn-time", 5);
             removeUnenchanted = config.getBoolean("remove-unenchanted", true);
-            spawnX = config.getDouble("spawn-x", 1.0D);
-            spawnY = config.getDouble("spawn-y", 1.0D);
-            spawnZ = config.getDouble("spawn-z", 1.0D);
+            spawnX = config.getDouble("spawn.x", 1.0D);
+            spawnY = config.getDouble("spawn.y", 1.0D);
+            spawnZ = config.getDouble("spawn.z", 1.0D);
             spawnTeleportMessage = config.getString("spawn-tp-message");
 
             initDrops();
