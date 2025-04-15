@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class LeaveEvent implements Listener {
 
-    private CombatManager combatManager = DreamKitPvP.getCombatManager();
+    private final CombatManager combatManager = DreamKitPvP.getCombatManager();
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
