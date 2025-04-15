@@ -22,9 +22,13 @@ public class SpawnCMD implements CommandExecutor {
 
         Player player = (Player) sender;
         Location loc = new Location(Bukkit.getWorld("world"), spawnX, spawnY, spawnZ, 0, 0);
-        player.teleport(loc);
-        player.sendMessage(messaggiotp);
-
+        if (DreamKitPvP.getCombatManager().isPlayerInCombat(player) == true) {
+            player.sendMessage("§4Non puoi");
+        } else if (DreamKitPvP.getCombatManager().isPlayerInCombat(player) != true ) {
+            player.teleport(loc);
+            player.sendMessage(messaggiotp);
+        }
+        
         return true;
     }
 }
