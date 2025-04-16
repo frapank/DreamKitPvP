@@ -20,3 +20,5 @@ messages:
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"
   reload: "&aServer reloaded"
+  spawn-teleported: "&eSei tornato allo spawn"
+  combat-spawn: "&cNon puoi sei in combat!"

@@ -25,7 +25,7 @@ public class CooldownItems implements Listener {
         if (cooldownManager.isPlayerInCooldown(event.getPlayer())) {
             event.setCancelled(true);
             long remainingTime = cooldownManager.getRemainingCombatTime(event.getPlayer()) / 1000;
-            event.getPlayer().sendMessage(Utils.color("&eDevi aspettare " + remainingTime + "s")); //TODO: Da mettere nel config
+            event.getPlayer().sendMessage(Utils.color("&eDevi aspettare " + remainingTime + "s"));
             return;
         }
 
