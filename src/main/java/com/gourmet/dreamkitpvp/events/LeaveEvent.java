@@ -18,7 +18,6 @@ public class LeaveEvent implements Listener {
 
         if(combatManager.isPlayerInCombat(player)){
             player.setHealth(0.0);
-            Bukkit.getLogger().info("Player uscito durante il combat");
         }
     }
 }
