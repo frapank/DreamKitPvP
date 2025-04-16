@@ -37,6 +37,7 @@ public class ConfigManager {
 
     public void reloadMessages() {
         try {
+
             DreamKitPvP instance = DreamKitPvP.getInstance();
             instance.reloadConfig();
             this.config = instance.getConfig();
