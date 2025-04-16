@@ -1,6 +1,7 @@
 name: DreamKitPvP
 version: '${version}'
 main: com.gourmet.dreamkitpvp.DreamKitPvP
+softdepend: ["PlaceholderAPI"]
 
 commands:
   build:
