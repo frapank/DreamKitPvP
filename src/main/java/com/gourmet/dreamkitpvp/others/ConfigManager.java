@@ -3,6 +3,7 @@ package com.gourmet.dreamkitpvp.others;
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -30,6 +31,10 @@ public class ConfigManager {
 
     // Booleans
     private boolean removeUnenchanted;
+    private boolean spawnEnabled;
+
+    //Locations
+    private Location spawn;
 
     public ConfigManager() {
         reloadMessages();
@@ -44,10 +49,30 @@ public class ConfigManager {
 
             loadMessages();
             loadSettings();
+            loadLocations();
             loadDrops();
 
         } catch (Exception e) {
             Bukkit.getLogger().warning("[ConfigManager] Failed to load config: " + e.getMessage());
+        }
+    }
+
+    private void loadLocations(){
+        if (!getConfig().contains("spawn")) {
+            spawnEnabled = false;
+        } else {
+            spawnEnabled = true;
+            String world = config.getString("spawn.world");
+            double x = config.getDouble("spawn.x");
+            double y = config.getDouble("spawn.y");
+            double z = config.getDouble("spawn.z");
+
+            spawn = new Location(
+                    Bukkit.getWorld(world),
+                    x,
+                    y,
+                    z
+            );
         }
     }
 
