@@ -23,6 +23,8 @@ public class ConfigManager {
     private String reloadMessage;
     private String combatMessage;
     private String outCombatMessage;
+    private String cantSpawnInCombat;
+    private String teleportedToSpawn;
 
     // Numbers
     private double verticalMultiplier;
@@ -77,12 +79,14 @@ public class ConfigManager {
     }
 
     private void loadMessages() {
-        prefix = config.getString("messages.prefix", "[DefaultPrefix] ");
-        combatMessage = prefix + config.getString("messages.in-combat", "You are in combat!");
-        outCombatMessage = prefix + config.getString("messages.out-combat", "You are out of combat!");
-        cooldownItems = prefix + config.getString("messages.cooldown", "Item is on cooldown!");
-        noPermission = prefix + config.getString("messages.no-perm", "You don't have permission!");
-        reloadMessage = prefix + config.getString("messages.reload", "Configuration reloaded!");
+        prefix = config.getString("messages.prefix", "[ErrorPrefix] ");
+        combatMessage = prefix + config.getString("messages.in-combat", "Config error");
+        outCombatMessage = prefix + config.getString("messages.out-combat", "Config error");
+        cooldownItems = prefix + config.getString("messages.cooldown", "Config error");
+        noPermission = prefix + config.getString("messages.no-perm", "Config error");
+        reloadMessage = prefix + config.getString("messages.reload", "Config error");
+        cantSpawnInCombat = prefix + config.getString("messages.combat-spawn", "Config error");
+        teleportedToSpawn = prefix + config.getString("messages.spawn-teleported", "Config error");
     }
 
     private void loadSettings() {
