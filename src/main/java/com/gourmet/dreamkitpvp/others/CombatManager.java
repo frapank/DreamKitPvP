@@ -38,16 +38,20 @@ public class CombatManager {
         player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getCombatMessage()));
     }
 
-    public long getRemainingCombatTime(Player player) {
+
+    public int getRemainingCombatTime(Player player) {
         UUID playerId = player.getUniqueId();
 
         if (!combatEndTimes.containsKey(playerId)) {
             return 0;
         }
 
-        long remaining = combatEndTimes.get(playerId) - System.currentTimeMillis();
-        return remaining > 0 ? remaining : 0;
+        long remainingMillis = combatEndTimes.get(playerId) - System.currentTimeMillis();
+        long remainingSeconds = remainingMillis / 1000;
+
+        return (int) (remainingSeconds > 0 ? remainingSeconds : 0);
     }
+
 
     public boolean isPlayerInCombat(Player player) {
         return combatTasks.containsKey(player.getUniqueId());
