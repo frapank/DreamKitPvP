@@ -8,7 +8,9 @@ import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.CombatManager;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
 import com.gourmet.dreamkitpvp.others.CooldownManager;
+import com.gourmet.dreamkitpvp.others.KitPlaceHolders;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,8 +43,15 @@ public final class DreamKitPvP extends JavaPlugin {
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
 
+        initPlaceHolderApi();
         initCommandsAndEvents();
         getLogger().info("DreamKitPvP Started!");
+    }
+
+    private void initPlaceHolderApi(){
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new KitPlaceHolders().register();
+        }
     }
 
     private void initCommandsAndEvents() {
