@@ -80,13 +80,13 @@ public class ConfigManager {
 
     private void loadMessages() {
         prefix = config.getString("messages.prefix", "[ErrorPrefix] ");
-        combatMessage = prefix + config.getString("messages.in-combat", "Config error");
-        outCombatMessage = prefix + config.getString("messages.out-combat", "Config error");
-        cooldownItems = prefix + config.getString("messages.cooldown", "Config error");
-        noPermission = prefix + config.getString("messages.no-perm", "Config error");
-        reloadMessage = prefix + config.getString("messages.reload", "Config error");
-        cantSpawnInCombat = prefix + config.getString("messages.combat-spawn", "Config error");
-        teleportedToSpawn = prefix + config.getString("messages.spawn-teleported", "Config error");
+        combatMessage = getPrefixedMessage("messages.in-combat");
+        outCombatMessage = getPrefixedMessage("messages.out-combat");
+        cooldownItems = getPrefixedMessage("messages.cooldown");
+        noPermission = getPrefixedMessage("messages.no-perm");
+        reloadMessage = getPrefixedMessage("messages.reload");
+        cantSpawnInCombat = getPrefixedMessage("messages.combat-spawn");
+        teleportedToSpawn = getPrefixedMessage("messages.spawn-teleported");
     }
 
     private void loadSettings() {
@@ -107,6 +107,10 @@ public class ConfigManager {
         }
     }
 
+    private String getPrefixedMessage(String path){
+        return prefix + config.getString(path, "Config Error");
+    }
+
     public boolean shouldRemoveUnenchanted() {
         return removeUnenchanted;
     }
@@ -114,6 +118,8 @@ public class ConfigManager {
     public boolean isBannedDrop(Material material) {
         return bannedDrops.contains(material);
     }
+
+
 
 
 }
