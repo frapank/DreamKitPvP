@@ -61,6 +61,7 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("spawn").setExecutor(new SpawnCMD());
 
         List<Listener> events = Arrays.asList(
+                new RoadPvPEvent(),
                 new LeaveEvent(),
                 new InstantRespawnEvent(),
                 new CooldownItems(),
