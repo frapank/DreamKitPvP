@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 
 public class Utils {
     public static String color(String msg) {
@@ -39,6 +41,51 @@ public class Utils {
             }
         } catch (Exception e) {
             DreamKitPvP.getInstance().getLogger().warning("Error:" + e);
+        }
+    }
+
+    public static ItemStack setDurabilityByLevel(ItemStack item, int level) {
+        if (item == null || item.getType() == Material.AIR) return item;
+        if (level < 1) level = 1;
+        if (level > 4) level = 4;
+
+        short maxDurability = item.getType().getMaxDurability();
+
+        if (maxDurability <= 0) return item;
+
+        short damage;
+        switch (level) {
+            case 1: damage = (short) (maxDurability * 0.75); break;
+            case 2: damage = (short) (maxDurability * 0.5); break;
+            case 3: damage = (short) (maxDurability * 0.25); break;
+            case 4: default: damage = 0; break;
+        }
+
+        item.setDurability(damage);
+        return item;
+    }
+
+    public static int getDurabilityLevel(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) {
+            return 0;
+        }
+
+        short maxDurability = item.getType().getMaxDurability();
+        if (maxDurability <= 0) {
+            return 0;
+        }
+
+        short damage = item.getDurability();
+        double healthRatio = (maxDurability - damage) / (double) maxDurability;
+
+        if (healthRatio <= 0.25) {
+            return 1;
+        } else if (healthRatio <= 0.50) {
+            return 2;
+        } else if (healthRatio <= 0.75) {
+            return 3;
+        } else {
+            return 4;
         }
     }
 
