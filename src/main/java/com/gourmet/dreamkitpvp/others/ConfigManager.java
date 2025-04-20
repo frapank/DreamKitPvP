@@ -7,7 +7,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,6 +27,7 @@ public class ConfigManager {
     private String outCombatMessage;
     private String cantSpawnInCombat;
     private String teleportedToSpawn;
+    private String cantWhileCombat;
 
     // Numbers
     private double verticalMultiplier;
@@ -37,6 +40,9 @@ public class ConfigManager {
 
     //Locations
     private Location spawn;
+
+    //List
+    private List<String> blockedCommands;
 
     public ConfigManager() {
         reloadMessages();
@@ -53,6 +59,7 @@ public class ConfigManager {
             loadSettings();
             loadLocations();
             loadDrops();
+            loadStrings();
 
         } catch (Exception e) {
             Bukkit.getLogger().warning("[ConfigManager] Failed to load config: " + e.getMessage());
@@ -87,6 +94,7 @@ public class ConfigManager {
         reloadMessage = getPrefixedMessage("messages.reload");
         cantSpawnInCombat = getPrefixedMessage("messages.combat-spawn");
         teleportedToSpawn = getPrefixedMessage("messages.spawn-teleported");
+        cantWhileCombat = getPrefixedMessage("messages.cant-while-combat");
     }
 
     private void loadSettings() {
@@ -105,6 +113,10 @@ public class ConfigManager {
                 Bukkit.getLogger().warning("Unknown material : " + itemName);
             }
         }
+    }
+
+    private void loadStrings() {
+        blockedCommands = config.getStringList("blocked-commands");
     }
 
     private String getPrefixedMessage(String path){
