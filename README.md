@@ -1,15 +1,10 @@
 # DreamKitPvP:
 
-## Task
-- Respawn istantaneo.
-- Drop di oggetti TRANNE kit base (no item non incantati, frecce ecc.)
-- Asce che danneggiano di più l'armatura. (non devono fare più danno ai giocatori)
-- BowBoost per l'arco.
-- No autocombat.
-- Timer gapple, combat e enderpearl.
-- Sistema di combat.
-- Blocco comandi in combat.
-- Modalità Build.
-- Timer ossidiana e ragnatele.
-- Stats
-- Road che ha 4 colpi, quando li finisci ad ogni 2 hit, ricarichi un colpo di road ( Visualizabile tramite la durabilita della road )
+## Task base 
+- Refinere il sistema della crosbow
+- Stats with combat log check for leave
+
+## Task custom obbligatorie:
+- Spostamento sistema di frammenti, reworkato con un database centrale ( mysql )
+- Ricreazione black market, con sistema ottimizato non basato sui permessi
+- Sistema giveaway custom
