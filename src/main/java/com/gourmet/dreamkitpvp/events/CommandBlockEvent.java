@@ -20,6 +20,10 @@ public class CommandBlockEvent implements Listener {
         String msg = e.getMessage().substring(1);
         String cmd = msg.contains(" ") ? msg.split(" ")[0].toLowerCase() : msg.toLowerCase();
 
+        if(!DreamKitPvP.getCombatManager().isPlayerInCombat(player)){
+            return;
+        }
+
         if(blockedCommands.contains(cmd)){
             player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getCantWhileCombat()));
             e.setCancelled(true);
