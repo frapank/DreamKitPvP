@@ -15,7 +15,6 @@ public class LeaveEvent implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
         Player player = event.getPlayer();
-
         if(combatManager.isPlayerInCombat(player)){
             player.setHealth(0.0);
         }
