@@ -12,9 +12,12 @@ banned-drops:
   - DIAMOND_LEGGINGS
   - DIAMOND_BOOTS
 
+blocked-commands:
+  - kit
 
 messages:
   prefix: "&f[&e☾&f] &8> "
+  cant-while-combat: "&cNon puoi! Stai in combat"
   out-combat: "&eSei uscito dal combat"
   in-combat: "&eSei in combat"
   no-perm: "&cNon hai il permesso"
