@@ -31,6 +31,7 @@ public class KitPlaceHolders extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, @NotNull String params) {
         Player gamePlayer = player.getPlayer();
 
+        //Combat log
         if(params.equals("combat".toLowerCase())){
             if(DreamKitPvP.getCombatManager().isPlayerInCombat(gamePlayer)){
                 return String.valueOf(DreamKitPvP.getCombatManager().getRemainingCombatTime(gamePlayer));
