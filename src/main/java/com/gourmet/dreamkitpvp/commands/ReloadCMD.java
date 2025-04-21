@@ -22,7 +22,7 @@ public class ReloadCMD implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage(Utils.color(configManager.getReloadMessage()));
+        player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getReloadMessage()));
         DreamKitPvP.getConfigManager().reloadMessages();
 
         return true;
