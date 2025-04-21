@@ -21,16 +21,11 @@ import java.util.List;
 
 public final class DreamKitPvP extends JavaPlugin {
 
-    @Getter
-    private static DreamKitPvP instance;
-    @Getter
-    private static HashSet<Player> buildModePlayer;
-    @Getter
-    private static ConfigManager configManager;
-    @Getter
-    private static CombatManager combatManager;
-    @Getter
-    private static CooldownManager cooldownManager;
+    @Getter private static DreamKitPvP instance;
+    @Getter private static HashSet<Player> buildModePlayer;
+    @Getter private static ConfigManager configManager;
+    @Getter private static CombatManager combatManager;
+    @Getter private static CooldownManager cooldownManager;
 
     @Override
     public void onEnable() {
