@@ -14,9 +14,8 @@ import java.util.HashSet;
 
 public class DespawnBlockEvent implements Listener {
 
-    private final ConfigManager configManager = DreamKitPvP.getConfigManager();
     private final HashSet<Player> builderPlayers = DreamKitPvP.getBuildModePlayer();
-    private final int despawnTime = configManager.getDespawnTime();
+    private final int despawnTime = DreamKitPvP.getConfigManager().getDespawnTime();
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {

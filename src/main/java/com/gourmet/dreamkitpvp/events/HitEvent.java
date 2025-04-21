@@ -1,7 +1,6 @@
 package com.gourmet.dreamkitpvp.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -15,8 +14,6 @@ import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.util.Vector;
 
 public class HitEvent implements Listener {
-
-    private final ConfigManager configManager = DreamKitPvP.getConfigManager();
 
     @EventHandler
     public void onShoot(EntityShootBowEvent e) {
@@ -42,8 +39,8 @@ public class HitEvent implements Listener {
         if (damager instanceof Arrow) {
             Arrow a = (Arrow) damager;
             if (a.getShooter().equals(p)) {
-                double horizontalMultiplier = configManager.getHorizontalMultiplier();
-                double verticalMultiplier = configManager.getVerticalMultiplier();
+                double horizontalMultiplier = DreamKitPvP.getConfigManager().getHorizontalMultiplier();
+                double verticalMultiplier = DreamKitPvP.getConfigManager().getVerticalMultiplier();
                 double horizontalSpeed = Math.sqrt(initialVelocity.getX() * initialVelocity.getX() + initialVelocity.getZ() * initialVelocity.getZ()) * horizontalMultiplier;
                 double verticalSpeed = initialVelocity.getY() * verticalMultiplier;
                 Vector dir = a.getLocation().getDirection().normalize();

@@ -1,7 +1,6 @@
 package com.gourmet.dreamkitpvp.commands;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +12,6 @@ import java.util.HashSet;
 public class BuildCMD implements CommandExecutor {
 
     private final HashSet<Player> buildModePlayers = DreamKitPvP.getBuildModePlayer();
-    private final ConfigManager configManager = DreamKitPvP.getConfigManager();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -25,7 +23,7 @@ public class BuildCMD implements CommandExecutor {
         Player player = (Player) sender;
 
         if (!player.hasPermission("dreamkitpvp.admin")) {
-            player.sendMessage(Utils.color(configManager.getNoPermission()));
+            player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getNoPermission()));
             return true;
         }
 
