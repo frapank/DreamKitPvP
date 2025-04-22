@@ -1,6 +1,10 @@
 package com.gourmet.dreamkitpvp.others;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -8,17 +12,14 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.UUID;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@NoArgsConstructor
 public class CombatManager {
 
-    private final HashMap<UUID, BukkitTask> combatTasks;
-    private final HashMap<UUID, Long> combatEndTimes;
+    HashMap<UUID, BukkitTask> combatTasks = new HashMap<>();
+    HashMap<UUID, Long> combatEndTimes = new HashMap<>();
 
-    public CombatManager() {
-        combatTasks = new HashMap<>();
-        combatEndTimes = new HashMap<>();
-    }
-
-    public void startCombat(Player player) {
+    public void startCombat(@NonNull Player player) {
         UUID playerId = player.getUniqueId();
 
         if (combatTasks.containsKey(playerId)) {
@@ -39,7 +40,7 @@ public class CombatManager {
     }
 
 
-    public int getRemainingCombatTime(Player player) {
+    public int getRemainingCombatTime(@NonNull Player player) {
         UUID playerId = player.getUniqueId();
 
         if (!combatEndTimes.containsKey(playerId)) {
@@ -53,7 +54,7 @@ public class CombatManager {
     }
 
 
-    public boolean isPlayerInCombat(Player player) {
+    public boolean isPlayerInCombat(@NonNull Player player) {
         return combatTasks.containsKey(player.getUniqueId());
     }
 }
