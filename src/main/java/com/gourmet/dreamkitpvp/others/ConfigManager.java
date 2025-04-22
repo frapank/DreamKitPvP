@@ -74,6 +74,7 @@ public class ConfigManager {
     private void loadLocations(){
         if (!getConfig().contains("spawn")) {
             spawnEnabled = false;
+            Logger.warning("Spawn not defined");
             return;
         }
         spawnEnabled = true;
