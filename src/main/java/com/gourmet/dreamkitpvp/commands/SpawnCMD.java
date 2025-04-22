@@ -1,6 +1,7 @@
 package com.gourmet.dreamkitpvp.commands;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.gourmet.dreamkitpvp.others.CombatManager;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.command.Command;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 public class SpawnCMD implements CommandExecutor {
 
     private final ConfigManager configManager = DreamKitPvP.getConfigManager();
+    private final CombatManager combatManager = DreamKitPvP.getCombatManager();
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -21,7 +23,7 @@ public class SpawnCMD implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        if(DreamKitPvP.getCombatManager().isPlayerInCombat(player)){
+        if(combatManager.isPlayerInCombat(player)){
             player.sendMessage(Utils.color(configManager.getCantSpawnInCombat()));
             return true;
         }
