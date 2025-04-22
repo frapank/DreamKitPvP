@@ -6,6 +6,7 @@ import com.gourmet.dreamkitpvp.commands.SpawnCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnSetCMD;
 import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.*;
+import com.mysql.jdbc.log.Log;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -47,6 +48,8 @@ public final class DreamKitPvP extends JavaPlugin {
     private void initPlaceHolderApi(){
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new KitPlaceHolders().register();
+        } else {
+            Logger.warning("PlaceHolder API not found");
         }
     }
 
