@@ -1,8 +1,10 @@
 package com.gourmet.dreamkitpvp.others;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,36 +17,37 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConfigManager {
 
-    private final Set<Material> bannedDrops = new HashSet<>();
-    private FileConfiguration config = DreamKitPvP.getInstance().getConfig();
+    final Set<Material> bannedDrops = new HashSet<>();
+    FileConfiguration config = DreamKitPvP.getInstance().getConfig();
 
     // Strings
-    private String prefix;
-    private String cooldownItems;
-    private String noPermission;
-    private String reloadMessage;
-    private String combatMessage;
-    private String outCombatMessage;
-    private String cantSpawnInCombat;
-    private String teleportedToSpawn;
-    private String cantWhileCombat;
+    String prefix;
+    String cooldownItems;
+    String noPermission;
+    String reloadMessage;
+    String combatMessage;
+    String outCombatMessage;
+    String cantSpawnInCombat;
+    String teleportedToSpawn;
+    String cantWhileCombat;
 
     // Numbers
-    private double verticalMultiplier;
-    private double horizontalMultiplier;
-    private int despawnTime;
+    double verticalMultiplier;
+    double horizontalMultiplier;
+    int despawnTime;
 
     // Booleans
-    private boolean removeUnenchanted;
-    private boolean spawnEnabled;
+    boolean removeUnenchanted;
+    boolean spawnEnabled;
 
     //Locations
-    private Location spawn;
+    Location spawn;
 
     //List
-    private List<String> blockedCommands;
+    List<String> blockedCommands;
 
     public ConfigManager() {
         reloadMessages();
