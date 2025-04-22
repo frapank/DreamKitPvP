@@ -2,9 +2,11 @@ package com.gourmet.dreamkitpvp.others;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -69,20 +71,15 @@ public class ConfigManager {
     private void loadLocations(){
         if (!getConfig().contains("spawn")) {
             spawnEnabled = false;
-        } else {
-            spawnEnabled = true;
-            String world = config.getString("spawn.world");
-            double x = config.getDouble("spawn.x");
-            double y = config.getDouble("spawn.y");
-            double z = config.getDouble("spawn.z");
-
-            spawn = new Location(
-                    Bukkit.getWorld(world),
-                    x,
-                    y,
-                    z
-            );
+            return;
         }
+        spawnEnabled = true;
+        World world = Bukkit.getWorld(config.getString("spawn.world"));
+        double x = config.getDouble("spawn.x");
+        double y = config.getDouble("spawn.y");
+        double z = config.getDouble("spawn.z");
+
+        spawn = new Location(world, x, y, z);
     }
 
     private void loadMessages() {
