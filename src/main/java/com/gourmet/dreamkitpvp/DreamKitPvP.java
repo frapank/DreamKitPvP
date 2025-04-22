@@ -32,15 +32,19 @@ public final class DreamKitPvP extends JavaPlugin {
         getLogger().info("DreamKitPvP Starting...");
 
         saveDefaultConfig();
+        setupInstance();
+        initPlaceHolderApi();
+        initCommandsAndEvents();
+
+        getLogger().info("DreamKitPvP Started!");
+    }
+
+    private void setupInstance(){
         instance = this;
         combatManager = new CombatManager();
         cooldownManager = new CooldownManager();
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
-
-        initPlaceHolderApi();
-        initCommandsAndEvents();
-        getLogger().info("DreamKitPvP Started!");
     }
 
     private void initPlaceHolderApi(){
