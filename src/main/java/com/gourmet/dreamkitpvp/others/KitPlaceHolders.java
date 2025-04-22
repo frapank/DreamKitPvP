@@ -9,20 +9,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class KitPlaceHolders extends PlaceholderExpansion {
     @Override
-    @NotNull
-    public String getAuthor() {
+    public @NotNull String getAuthor() {
         return "Gourmet";
     }
 
     @Override
-    @NotNull
-    public String getIdentifier() {
+    public @NotNull String getIdentifier() {
         return "kitpvp";
     }
 
     @Override
-    @NotNull
-    public String getVersion() {
+    public @NotNull String getVersion() {
         return "1.0.0";
     }
 
