@@ -1,6 +1,5 @@
 package com.gourmet.dreamkitpvp.others;
 
-import com.gourmet.dreamkitpvp.DreamKitPvP;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
@@ -14,6 +13,7 @@ import org.bukkit.Material;
 
 @UtilityClass
 public class Utils {
+
     public String color(String msg) {
         return msg == null ? " " : ChatColor.translateAlternateColorCodes('&', msg);
     }
@@ -23,7 +23,6 @@ public class Utils {
         PacketPlayOutChat packet = new PacketPlayOutChat(chatComponent, (byte) 2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
-
 
     @SneakyThrows
     public void spawnParticle(Location location, EnumParticle particle) {
@@ -44,14 +43,14 @@ public class Utils {
         }
     }
 
-    public ItemStack setDurabilityByLevel(ItemStack item, int level) {
-        if (item == null || item.getType() == Material.AIR) return item;
+    public void setDurabilityByLevel(ItemStack item, int level) {
+        if (item == null || item.getType() == Material.AIR) return;
         if (level < 1) level = 1;
         if (level > 4) level = 4;
 
         short maxDurability = item.getType().getMaxDurability();
 
-        if (maxDurability <= 0) return item;
+        if (maxDurability <= 0) return;
 
         short damage;
         switch (level) {
@@ -62,7 +61,6 @@ public class Utils {
         }
 
         item.setDurability(damage);
-        return item;
     }
 
     public int getDurabilityLevel(ItemStack item) {
@@ -88,5 +86,4 @@ public class Utils {
             return 4;
         }
     }
-
 }
