@@ -5,10 +5,7 @@ import com.gourmet.dreamkitpvp.commands.ReloadCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnSetCMD;
 import com.gourmet.dreamkitpvp.events.*;
-import com.gourmet.dreamkitpvp.others.CombatManager;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
-import com.gourmet.dreamkitpvp.others.CooldownManager;
-import com.gourmet.dreamkitpvp.others.KitPlaceHolders;
+import com.gourmet.dreamkitpvp.others.*;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,14 +26,14 @@ public final class DreamKitPvP extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("DreamKitPvP Starting...");
+        Logger.info("&kLoading...");
 
         saveDefaultConfig();
         setupInstance();
         initPlaceHolderApi();
         initCommandsAndEvents();
 
-        getLogger().info("DreamKitPvP Started!");
+        Logger.info("&aDreamKitPvP Started!");
     }
 
     private void setupInstance(){

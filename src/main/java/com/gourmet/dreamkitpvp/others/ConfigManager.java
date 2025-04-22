@@ -67,7 +67,7 @@ public class ConfigManager {
             loadStrings();
 
         } catch (Exception e) {
-            Bukkit.getLogger().warning("[ConfigManager] Failed to load config: " + e.getMessage());
+            Logger.warning("Failed to load config: &c" + e.getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ public class ConfigManager {
             try {
                 bannedDrops.add(Material.valueOf(itemName.toUpperCase()));
             } catch (IllegalArgumentException e) {
-                Bukkit.getLogger().warning("Unknown material : " + itemName);
+                Logger.warning("Unknown material: &c" + itemName);
             }
         }
     }
