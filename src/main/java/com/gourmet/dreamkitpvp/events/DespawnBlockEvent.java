@@ -2,6 +2,8 @@ package com.gourmet.dreamkitpvp.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.ConfigManager;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,11 +14,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DespawnBlockEvent implements Listener {
 
-    private final ConfigManager configManager = DreamKitPvP.getConfigManager();
-    private final HashSet<Player> builderPlayers = DreamKitPvP.getBuildModePlayer();
-    private final int despawnTime = configManager.getDespawnTime();
+     ConfigManager configManager = DreamKitPvP.getConfigManager();
+     HashSet<Player> builderPlayers = DreamKitPvP.getBuildModePlayer();
+     int despawnTime = configManager.getDespawnTime();
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
