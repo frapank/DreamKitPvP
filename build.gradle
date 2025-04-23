@@ -25,6 +25,7 @@ dependencies {
     compileOnly "org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT"
     compileOnly 'me.clip:placeholderapi:2.11.6'
     compileOnly 'org.projectlombok:lombok:1.18.36'
+    runtimeOnly 'mysql:mysql-connector-java:8.3.0'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.36'
