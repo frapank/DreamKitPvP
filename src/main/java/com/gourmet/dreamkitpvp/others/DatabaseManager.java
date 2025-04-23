@@ -37,4 +37,29 @@ public class DatabaseManager {
             Logger.warning("Problem with the database: " + e);
         }
     }
+
+    public int getFragmentByName(String playerName){
+
+        try{
+           Connection connection = DriverManager.getConnection(url, user, pass);
+           String query = "SELECT fragments, name FROM user WHERE name = ? LIMIT 1";
+           PreparedStatement stmt = connection.prepareStatement(query);
+           stmt.setString(1, playerName);
+
+           ResultSet result = stmt.executeQuery();
+           if (result.next()) {
+               return result.getInt("fragments");
+           }
+
+           result.close();
+           stmt.close();
+           connection.close();
+
+        } catch (SQLException e) {
+            Logger.warning("Database problem, can't find user: " + e);
+        }
+
+        return -1;
+
+    }
 }
