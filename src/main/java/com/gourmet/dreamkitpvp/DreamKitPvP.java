@@ -6,7 +6,6 @@ import com.gourmet.dreamkitpvp.commands.SpawnCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnSetCMD;
 import com.gourmet.dreamkitpvp.events.*;
 import com.gourmet.dreamkitpvp.others.*;
-import com.mysql.jdbc.log.Log;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,10 +23,11 @@ public final class DreamKitPvP extends JavaPlugin {
     @Getter private static ConfigManager configManager;
     @Getter private static CombatManager combatManager;
     @Getter private static CooldownManager cooldownManager;
+    @Getter private static DatabaseManager databaseManager;
 
     @Override
     public void onEnable() {
-        Logger.info("&kLoading...");
+        Logger.watch("&fLoading...");
 
         saveDefaultConfig();
         setupInstance();
@@ -43,6 +43,8 @@ public final class DreamKitPvP extends JavaPlugin {
         cooldownManager = new CooldownManager();
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
+        databaseManager = new DatabaseManager();
+        databaseManager.initDatabase();
     }
 
     private void initPlaceHolderApi(){
