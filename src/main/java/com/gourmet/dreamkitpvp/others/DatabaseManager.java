@@ -2,6 +2,7 @@ package com.gourmet.dreamkitpvp.others;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.entity.Player;
 
 import java.sql.*;
 
@@ -14,10 +15,9 @@ public class DatabaseManager {
 
 
     public void initDatabase(){
-        try {
-            Connection connection = DriverManager.getConnection(url, user, pass);
+        String query = "SELECT * FROM user";
+        try (Connection connection = DriverManager.getConnection(url, user, pass)){
             Logger.info("Database connection established");
-            String query = "SELECT * FROM user";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -31,19 +31,39 @@ public class DatabaseManager {
 
             rs.close();
             stmt.close();
-            connection.close();
 
         } catch (SQLException e) {
             Logger.warning("Problem with the database: " + e);
         }
     }
 
-    public int getFragmentByName(String playerName){
+    public boolean createUser(Player player){
+        String query = "INSERT IGNORE INTO user (name) VALUE (?)";
 
-        try{
-           Connection connection = DriverManager.getConnection(url, user, pass);
-           String query = "SELECT fragments, name FROM user WHERE name = ? LIMIT 1";
-           PreparedStatement stmt = connection.prepareStatement(query);
+        try (
+                Connection connection = DriverManager.getConnection(url, user, pass);
+                PreparedStatement stmt = connection.prepareStatement(query);
+        ) {
+
+            stmt.setString(1, player.getName());
+            int result = stmt.executeUpdate();
+
+            return result > 0;
+
+        } catch (SQLException e) {
+            Logger.warning("Database error adding user: " + e);
+            return false;
+        }
+    }
+
+    public int getFragmentByName(String playerName){
+        String query = "SELECT fragments, name FROM user WHERE name = ? LIMIT 1";
+
+        try (
+                Connection connection = DriverManager.getConnection(url, user, pass);
+                PreparedStatement stmt = connection.prepareStatement(query);
+        ) {
+
            stmt.setString(1, playerName);
 
            ResultSet result = stmt.executeQuery();
@@ -52,14 +72,11 @@ public class DatabaseManager {
            }
 
            result.close();
-           stmt.close();
-           connection.close();
 
         } catch (SQLException e) {
             Logger.warning("Database problem, can't find user: " + e);
         }
 
         return -1;
-
     }
 }
