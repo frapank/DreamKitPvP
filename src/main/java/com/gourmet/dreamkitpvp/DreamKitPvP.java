@@ -55,8 +55,8 @@ public final class DreamKitPvP extends JavaPlugin {
         configManager = new ConfigManager();
         databaseManager = new DatabaseManager();
 
+        databaseManager.setupDatabase();
         databaseManager.initDatabase();
-        Logger.info("" + databaseManager.getFragmentByName("Adolf"));
     }
 
     private void initPlaceHolderApi(){

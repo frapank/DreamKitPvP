@@ -14,12 +14,44 @@ public class DatabaseManager {
     @Getter
     Boolean isOnline = false;
 
-    final String url = "jdbc:mysql://localhost:3306/users?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
+    final String url = "jdbc:mysql://localhost:3306/kitpvp?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
     final String user = "root";
     final String pass = "1231";
 
+    public void setupDatabase() {
+        final String baseUrl = "jdbc:mysql://localhost:3306/?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
+        final String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS kitpvp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+        final String createTableQuery =
+                "CREATE TABLE IF NOT EXISTS fragments_db (" +
+                        "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                        "name VARCHAR(255) NOT NULL UNIQUE, " +
+                        "fragments INT DEFAULT 0" +
+                        ")";
+
+        try (Connection connection = DriverManager.getConnection(baseUrl, user, pass);
+             Statement stmt = connection.createStatement()) {
+
+            stmt.executeUpdate(createDatabaseQuery);
+            Logger.info("Database 'kitpvp' created/checked successfully");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella creazione del database: " + e.getMessage(), e);
+        }
+
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             Statement stmt = connection.createStatement()) {
+
+            stmt.executeUpdate(createTableQuery);
+            Logger.info("Table 'fragments_db' created/checked successfully");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella creazione della tabella: " + e.getMessage(), e);
+        }
+    }
+
+
     public void initDatabase() {
-        final String query = "SELECT * FROM user";
+        final String query = "SELECT * FROM fragments_db";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement stmt = connection.createStatement();
@@ -43,7 +75,7 @@ public class DatabaseManager {
     }
 
     public void createUser(Player player) {
-        final String query = "INSERT IGNORE INTO user (name) VALUE (?)";
+        final String query = "INSERT IGNORE INTO fragments_db (name) VALUE (?)";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -57,7 +89,7 @@ public class DatabaseManager {
     }
 
     public int getFragmentByName(String playerName) {
-        final String query = "SELECT fragments FROM user WHERE name = ? LIMIT 1";
+        final String query = "SELECT fragments FROM fragments_db WHERE name = ? LIMIT 1";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement stmt = connection.prepareStatement(query)) {
