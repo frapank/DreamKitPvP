@@ -29,11 +29,15 @@ public class SpawnSetCMD implements CommandExecutor {
         double x = player.getLocation().getX();
         double y = player.getLocation().getY();
         double z = player.getLocation().getZ();
+        float yaw = player.getLocation().getYaw();
+        float pitch = player.getLocation().getPitch();
 
         config.set("spawn.world", world.getName());
         config.set("spawn.x", x);
         config.set("spawn.y", y);
         config.set("spawn.z", z);
+        config.set("spawn.yaw", yaw);
+        config.set("spawn.pitch", pitch);
         DreamKitPvP.getInstance().saveConfig();
 
         DreamKitPvP.getConfigManager().reloadMessages();

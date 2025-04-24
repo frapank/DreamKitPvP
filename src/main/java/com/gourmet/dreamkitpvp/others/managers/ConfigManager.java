@@ -81,8 +81,10 @@ public class ConfigManager {
         double x = config.getDouble("spawn.x");
         double y = config.getDouble("spawn.y");
         double z = config.getDouble("spawn.z");
+        float yaw = (float) config.getDouble("spawn.yaw");
+        float pitch = (float) config.getDouble("spawn.pitch");
 
-        spawn = new Location(world, x, y, z);
+        spawn = new Location(world, x, y, z, yaw, pitch);
     }
 
     private void loadMessages() {
