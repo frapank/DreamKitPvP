@@ -1,7 +1,7 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.functional;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
+import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;

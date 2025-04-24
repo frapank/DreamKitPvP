@@ -1,7 +1,7 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.pvp;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.CooldownManager;
+import com.gourmet.dreamkitpvp.others.managers.CooldownManager;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

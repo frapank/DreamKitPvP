@@ -4,8 +4,18 @@ import com.gourmet.dreamkitpvp.commands.BuildCMD;
 import com.gourmet.dreamkitpvp.commands.ReloadCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnCMD;
 import com.gourmet.dreamkitpvp.commands.SpawnSetCMD;
-import com.gourmet.dreamkitpvp.events.*;
+import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
+import com.gourmet.dreamkitpvp.events.functional.*;
+import com.gourmet.dreamkitpvp.events.pvp.CooldownItems;
+import com.gourmet.dreamkitpvp.events.pvp.AxeHitEvent;
+import com.gourmet.dreamkitpvp.events.pvp.CombactLogEvent;
+import com.gourmet.dreamkitpvp.events.pvp.BowBoostEvent;
+import com.gourmet.dreamkitpvp.events.pvp.RoadPvPEvent;
 import com.gourmet.dreamkitpvp.others.*;
+import com.gourmet.dreamkitpvp.others.managers.CombatManager;
+import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
+import com.gourmet.dreamkitpvp.others.managers.CooldownManager;
+import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -44,7 +54,9 @@ public final class DreamKitPvP extends JavaPlugin {
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
         databaseManager = new DatabaseManager();
+
         databaseManager.initDatabase();
+        Logger.info("" + databaseManager.getFragmentByName("Adolf"));
     }
 
     private void initPlaceHolderApi(){
@@ -62,13 +74,14 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("spawn").setExecutor(new SpawnCMD());
 
         List<Listener> events = Arrays.asList(
+                new DataBaseJoinEvent(),
                 new RoadPvPEvent(),
                 new LeaveEvent(),
                 new InstantRespawnEvent(),
                 new CooldownItems(),
                 new CombactLogEvent(),
                 new RemoveDropEvent(),
-                new HitEvent(),
+                new BowBoostEvent(),
                 new PlaceBlockEvent(),
                 new BreakBlockEvent(),
                 new AxeHitEvent(),

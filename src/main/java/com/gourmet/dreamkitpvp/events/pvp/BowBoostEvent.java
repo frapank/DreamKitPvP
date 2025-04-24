@@ -1,7 +1,7 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.pvp;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
+import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.util.Vector;
 
-public class HitEvent implements Listener {
+public class BowBoostEvent implements Listener {
 
     private final ConfigManager configManager = DreamKitPvP.getConfigManager();
 

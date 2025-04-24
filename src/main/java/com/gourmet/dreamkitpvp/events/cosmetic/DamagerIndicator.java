@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.cosmetic;
 
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;

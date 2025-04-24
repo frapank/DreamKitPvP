@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.pvp;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

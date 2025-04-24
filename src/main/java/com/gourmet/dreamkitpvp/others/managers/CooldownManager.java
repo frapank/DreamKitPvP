@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.others;
+package com.gourmet.dreamkitpvp.others.managers;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import lombok.NoArgsConstructor;

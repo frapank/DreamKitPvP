@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.functional;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;

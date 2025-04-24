@@ -1,5 +1,6 @@
-package com.gourmet.dreamkitpvp.others;
+package com.gourmet.dreamkitpvp.others.managers;
 
+import com.gourmet.dreamkitpvp.others.Logger;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -13,9 +14,9 @@ public class DatabaseManager {
     @Getter
     Boolean isOnline = false;
 
-    String url = "jdbc:mysql://localhost:3306/users?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
-    String user = "root";
-    String pass = "1231";
+    final String url = "jdbc:mysql://localhost:3306/users?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
+    final String user = "root";
+    final String pass = "1231";
 
     public void initDatabase() {
         final String query = "SELECT * FROM user";

@@ -1,7 +1,7 @@
 package com.gourmet.dreamkitpvp.commands;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.ConfigManager;
+import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

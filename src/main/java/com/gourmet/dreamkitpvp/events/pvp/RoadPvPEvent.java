@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.events;
+package com.gourmet.dreamkitpvp.events.pvp;
 
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.Material;
