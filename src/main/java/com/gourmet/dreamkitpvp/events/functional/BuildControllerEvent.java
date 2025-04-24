@@ -8,9 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class PlaceBlockEvent implements Listener {
+public class BuildControllerEvent implements Listener {
     @EventHandler
     public void placeBlockEvent(BlockPlaceEvent event) {
         Block block = event.getBlock();
@@ -18,6 +19,13 @@ public class PlaceBlockEvent implements Listener {
 
         if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())) {
             spawnParticle(block);
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBreakBlock(BlockBreakEvent event) {
+        if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
