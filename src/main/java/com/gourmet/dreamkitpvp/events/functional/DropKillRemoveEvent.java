@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class RemoveDropEvent implements Listener {
+public class DropKillRemoveEvent implements Listener {
 
     private final ConfigManager config = DreamKitPvP.getConfigManager();
 
