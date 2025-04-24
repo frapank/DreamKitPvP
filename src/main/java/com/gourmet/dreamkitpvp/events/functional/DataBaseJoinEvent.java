@@ -21,7 +21,5 @@ public class DataBaseJoinEvent implements Listener {
 
         Player player = event.getPlayer();
         databaseManager.createUser(player);
-        Logger.info("" + databaseManager.getFragmentByName(player.getName()));
-
     }
 }
