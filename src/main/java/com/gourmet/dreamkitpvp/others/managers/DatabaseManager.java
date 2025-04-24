@@ -7,65 +7,82 @@ import lombok.experimental.FieldDefaults;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.HashMap;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DatabaseManager {
 
     @Getter
-    Boolean isOnline = false;
+    private Boolean isOnline = false;
 
     final String url = "jdbc:mysql://localhost:3306/kitpvp?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
     final String user = "root";
     final String pass = "1231";
 
+    @Getter
+    private final HashMap<Player, PlayerData> playersData = new HashMap<>();
+
     public void setupDatabase() {
         final String baseUrl = "jdbc:mysql://localhost:3306/?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
         final String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS kitpvp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
-        final String createTableQuery =
-                "CREATE TABLE IF NOT EXISTS fragments_db (" +
-                        "id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                        "name VARCHAR(255) NOT NULL UNIQUE, " +
+
+        final String createPlayerTableQuery =
+                "CREATE TABLE IF NOT EXISTS players (" +
+                        "name VARCHAR(255) NOT NULL PRIMARY KEY, " +
                         "fragments INT DEFAULT 0" +
+                        ")";
+
+        final String createStatisticsTableQuery =
+                "CREATE TABLE IF NOT EXISTS statistics (" +
+                        "name VARCHAR(255) NOT NULL, " +
+                        "kills INT DEFAULT 0, " +
+                        "deaths INT DEFAULT 0, " +
+                        "kd DECIMAL(5,2) DEFAULT 0.00, " +
+                        "bounty INT DEFAULT 0, " +
+                        "streak INT DEFAULT 0, " +
+                        "PRIMARY KEY(name), " +
+                        "FOREIGN KEY(name) REFERENCES players(name) ON DELETE CASCADE" +
                         ")";
 
         try (Connection connection = DriverManager.getConnection(baseUrl, user, pass);
              Statement stmt = connection.createStatement()) {
-
             stmt.executeUpdate(createDatabaseQuery);
             Logger.info("Database 'kitpvp' created/checked successfully");
-
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella creazione del database: " + e.getMessage(), e);
         }
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement stmt = connection.createStatement()) {
-
-            stmt.executeUpdate(createTableQuery);
-            Logger.info("Table 'fragments_db' created/checked successfully");
-
+            stmt.executeUpdate(createPlayerTableQuery);
+            stmt.executeUpdate(createStatisticsTableQuery);
+            Logger.info("Tables 'players' and 'statistics' created/checked successfully");
         } catch (SQLException e) {
-            throw new RuntimeException("Errore nella creazione della tabella: " + e.getMessage(), e);
+            throw new RuntimeException("Errore nella creazione delle tabelle: " + e.getMessage(), e);
         }
     }
 
-
     public void initDatabase() {
-        final String query = "SELECT * FROM fragments_db";
+        final String query = "SELECT p.name, p.fragments, s.kills, s.deaths, s.kd, s.bounty " +
+                "FROM players p LEFT JOIN statistics s ON p.name = s.name";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
-
             Logger.info("Database connection established");
             isOnline = true;
 
             while (rs.next()) {
-                int id = rs.getInt("id");
                 String username = rs.getString("name");
                 int fragments = rs.getInt("fragments");
-
-                Logger.info(String.format("Utente: %s (ID: %d) - Frammenti: %d", username, id, fragments));
+                int kills = rs.getInt("kills");
+                int deaths = rs.getInt("deaths");
+                double kd = rs.getDouble("kd");
+                int bounty = rs.getInt("bounty");
+                Logger.info(String.format(
+                        "Utente: %s - Frammenti: %d - Kill: %d, Morti: %d, KD: %.2f, Taglia: %d",
+                        username, fragments, kills, deaths, kd, bounty
+                ));
             }
 
         } catch (SQLException e) {
@@ -74,37 +91,133 @@ public class DatabaseManager {
         }
     }
 
+
     public void createUser(Player player) {
-        final String query = "INSERT IGNORE INTO fragments_db (name) VALUE (?)";
+        final String insertPlayer = "INSERT IGNORE INTO players (name) VALUES (?)";
+        final String insertStats = "INSERT IGNORE INTO statistics (name) VALUES (?)";
+
+        try (Connection connection = DriverManager.getConnection(url, user, pass)) {
+            try (PreparedStatement stmt1 = connection.prepareStatement(insertPlayer)) {
+                stmt1.setString(1, player.getName());
+                stmt1.executeUpdate();
+            }
+            try (PreparedStatement stmt2 = connection.prepareStatement(insertStats)) {
+                stmt2.setString(1, player.getName());
+                stmt2.executeUpdate();
+            }
+            Logger.info("User and initial statistics created for " + player.getName());
+        } catch (SQLException e) {
+            Logger.warning("Database error adding user and stats: " + e.getMessage());
+        }
+    }
+
+    // Fragments
+    public void updateFragments(String playerName, int newFragments) {
+        final String query = "UPDATE players SET fragments = ? WHERE name = ?";
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, newFragments);
+            stmt.setString(2, playerName);
+            int rows = stmt.executeUpdate();
+            if (rows > 0) Logger.info("Fragments updated for " + playerName);
+            else Logger.warning("No player found with name: " + playerName);
+        } catch (SQLException e) {
+            Logger.warning("Database error updating fragments: " + e.getMessage());
+        }
+    }
+
+    // Statistics
+    public void updateStatistics(String playerName, int kills, int deaths, double kd, int bounty, int streak) {
+        final String query =
+                "INSERT INTO statistics (name, kills, deaths, kd, bounty, streak) VALUES (?, ?, ?, ?, ?, ?) " +
+                        "ON DUPLICATE KEY UPDATE kills = ?, deaths = ?, kd = ?, bounty = ?, streak = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setString(1, player.getName());
+            stmt.setString(1, playerName);
+            stmt.setInt(2, kills);
+            stmt.setInt(3, deaths);
+            stmt.setDouble(4, kd);
+            stmt.setInt(5, bounty);
+            stmt.setInt(6, streak);
+            stmt.setInt(7, kills);
+            stmt.setInt(8, deaths);
+            stmt.setDouble(9, kd);
+            stmt.setInt(10, bounty);
+            stmt.setInt(11, streak);
             stmt.executeUpdate();
-
+            Logger.info("Statistics updated for " + playerName);
         } catch (SQLException e) {
-            Logger.warning("Database error adding user: " + e.getMessage());
+            Logger.warning("Database error updating statistics: " + e.getMessage());
         }
+    }
+
+    // Getter
+    public PlayerStats getStatistics(String playerName) {
+        final String query = "SELECT kills, deaths, kd, bounty, streak FROM statistics WHERE name = ? LIMIT 1";
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, playerName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new PlayerStats(
+                            playerName,
+                            rs.getInt("kills"),
+                            rs.getInt("deaths"),
+                            rs.getDouble("kd"),
+                            rs.getInt("bounty"),
+                            rs.getInt("streak")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            Logger.warning("Database problem fetching statistics: " + e.getMessage());
+        }
+        return null;
     }
 
     public int getFragmentByName(String playerName) {
-        final String query = "SELECT fragments FROM fragments_db WHERE name = ? LIMIT 1";
-
+        final String query = "SELECT fragments FROM players WHERE name = ? LIMIT 1";
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement stmt = connection.prepareStatement(query)) {
-
             stmt.setString(1, playerName);
             try (ResultSet result = stmt.executeQuery()) {
-                if (result.next()) {
-                    return result.getInt("fragments");
-                }
+                if (result.next()) return result.getInt("fragments");
             }
-
         } catch (SQLException e) {
             Logger.warning("Database problem, can't find user: " + e.getMessage());
         }
-
         return -1;
     }
+
+    public static class PlayerStats {
+        public final String name;
+        public int kills;
+        public int deaths;
+        public double kd;
+        public int bounty;
+        public int streak;
+
+        public PlayerStats(String name, int kills, int deaths, double kd, int bounty, int streak) {
+            this.name = name;
+            this.kills = kills;
+            this.deaths = deaths;
+            this.kd = kd;
+            this.bounty = bounty;
+            this.streak = streak;
+        }
+    }
+
+    public static class PlayerData {
+        public final String name;
+        public int fragments;
+        public PlayerStats stats;
+
+        public PlayerData(Player player, DatabaseManager databaseManager) {
+            this.name = player.getName();
+            this.fragments = databaseManager.getFragmentByName(name);
+            this.stats = databaseManager.getStatistics(name);
+        }
+    }
 }
+
