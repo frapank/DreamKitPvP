@@ -1,16 +1,11 @@
 package com.gourmet.dreamkitpvp;
 
-import com.gourmet.dreamkitpvp.commands.BuildCMD;
-import com.gourmet.dreamkitpvp.commands.ReloadCMD;
-import com.gourmet.dreamkitpvp.commands.SpawnCMD;
-import com.gourmet.dreamkitpvp.commands.SpawnSetCMD;
+import com.gourmet.dreamkitpvp.commands.*;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
+import com.gourmet.dreamkitpvp.events.databases.JoinerDataEvent;
+import com.gourmet.dreamkitpvp.events.databases.KillDataEvent;
 import com.gourmet.dreamkitpvp.events.functional.*;
-import com.gourmet.dreamkitpvp.events.pvp.CooldownItems;
-import com.gourmet.dreamkitpvp.events.pvp.AxeHitEvent;
-import com.gourmet.dreamkitpvp.events.pvp.CombactLogEvent;
-import com.gourmet.dreamkitpvp.events.pvp.BowBoostEvent;
-import com.gourmet.dreamkitpvp.events.pvp.RoadPvPEvent;
+import com.gourmet.dreamkitpvp.events.pvp.*;
 import com.gourmet.dreamkitpvp.others.*;
 import com.gourmet.dreamkitpvp.others.managers.CombatManager;
 import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
@@ -72,22 +67,26 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("kit-reload").setExecutor(new ReloadCMD());
         getCommand("setspawn").setExecutor(new SpawnSetCMD());
         getCommand("spawn").setExecutor(new SpawnCMD());
+        getCommand("stats").setExecutor(new StatsCMD());
 
         List<Listener> events = Arrays.asList(
+                new JoinerDataEvent(),
+                new KillDataEvent(),
+                new FoodLostEvent(),
+                new DamageRegenEvent(),
                 new DataBaseJoinEvent(),
                 new RoadPvPEvent(),
                 new LeaveEvent(),
                 new InstantRespawnEvent(),
                 new CooldownItems(),
                 new CombactLogEvent(),
-                new RemoveDropEvent(),
+                new DropKillRemoveEvent(),
                 new BowBoostEvent(),
-                new PlaceBlockEvent(),
-                new BreakBlockEvent(),
+                new BuildControllerEvent(),
                 new AxeHitEvent(),
                 new DespawnBlockEvent(),
                 new DamagerIndicator(),
-                new SpawnJoinEvent());
+                new SpawnTeleportEvent());
         events.forEach(event -> {
             getServer().getPluginManager().registerEvents(event, this);
         });
