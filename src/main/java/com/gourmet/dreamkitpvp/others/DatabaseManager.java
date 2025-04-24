@@ -1,80 +1,75 @@
 package com.gourmet.dreamkitpvp.others;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DatabaseManager {
+
+    @Getter
+    Boolean isOnline = false;
 
     String url = "jdbc:mysql://localhost:3306/users?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
     String user = "root";
     String pass = "1231";
 
+    public void initDatabase() {
+        final String query = "SELECT * FROM user";
 
-    public void initDatabase(){
-        String query = "SELECT * FROM user";
-        try (Connection connection = DriverManager.getConnection(url, user, pass)){
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
             Logger.info("Database connection established");
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            isOnline = true;
 
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String username = rs.getString("name");
                 int fragments = rs.getInt("fragments");
 
-                Logger.info("Utente: " + username + " (ID: " + id + ") - Frammenti: " + fragments);
+                Logger.info(String.format("Utente: %s (ID: %d) - Frammenti: %d", username, id, fragments));
             }
 
-            rs.close();
-            stmt.close();
-
         } catch (SQLException e) {
-            Logger.warning("Problem with the database: " + e);
+            Logger.warning("Problem with the database: " + e.getMessage());
+            isOnline = false;
         }
     }
 
-    public boolean createUser(Player player){
-        String query = "INSERT IGNORE INTO user (name) VALUE (?)";
+    public void createUser(Player player) {
+        final String query = "INSERT IGNORE INTO user (name) VALUE (?)";
 
-        try (
-                Connection connection = DriverManager.getConnection(url, user, pass);
-                PreparedStatement stmt = connection.prepareStatement(query);
-        ) {
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, player.getName());
-            int result = stmt.executeUpdate();
-
-            return result > 0;
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
-            Logger.warning("Database error adding user: " + e);
-            return false;
+            Logger.warning("Database error adding user: " + e.getMessage());
         }
     }
 
-    public int getFragmentByName(String playerName){
-        String query = "SELECT fragments, name FROM user WHERE name = ? LIMIT 1";
+    public int getFragmentByName(String playerName) {
+        final String query = "SELECT fragments FROM user WHERE name = ? LIMIT 1";
 
-        try (
-                Connection connection = DriverManager.getConnection(url, user, pass);
-                PreparedStatement stmt = connection.prepareStatement(query);
-        ) {
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
 
-           stmt.setString(1, playerName);
-
-           ResultSet result = stmt.executeQuery();
-           if (result.next()) {
-               return result.getInt("fragments");
-           }
-
-           result.close();
+            stmt.setString(1, playerName);
+            try (ResultSet result = stmt.executeQuery()) {
+                if (result.next()) {
+                    return result.getInt("fragments");
+                }
+            }
 
         } catch (SQLException e) {
-            Logger.warning("Database problem, can't find user: " + e);
+            Logger.warning("Database problem, can't find user: " + e.getMessage());
         }
 
         return -1;
