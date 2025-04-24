@@ -12,3 +12,5 @@ commands:
     help: "/setspawn"
   spawn:
     help: "/spawn"
+  stats:
+    help: "/stats"
