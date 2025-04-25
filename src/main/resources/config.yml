@@ -18,10 +18,13 @@ blocked-commands:
 messages:
   prefix: "&f[&e☾&f] &8> "
   cant-while-combat: "&cNon puoi! Stai in combat"
-  out-combat: "&eSei uscito dal combat"
-  in-combat: "&eSei in combat"
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"
   reload: "&aServer reloaded"
   spawn-teleported: "&eSei tornato allo spawn"
   combat-spawn: "&cNon puoi sei in combat!"
+
+  join: "&e%player% &fsi e' unito al sogno"
+  death: "&e%player% &fe' morto"
+  killed: "&e%victim% &fe' stato ucciso da &c%killer% "
+  leave: "&e%player% &fsi sveglia dal sogno"
