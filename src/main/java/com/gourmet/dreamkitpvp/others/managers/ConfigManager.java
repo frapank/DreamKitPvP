@@ -27,11 +27,13 @@ public class ConfigManager {
     String cooldownItems;
     String noPermission;
     String reloadMessage;
-    String combatMessage;
-    String outCombatMessage;
     String cantSpawnInCombat;
     String teleportedToSpawn;
     String cantWhileCombat;
+    String joinMessage;
+    String deathMessage;
+    String killedMessage;
+    String leaveMessage;
 
     // Numbers
     double verticalMultiplier;
@@ -89,14 +91,16 @@ public class ConfigManager {
 
     private void loadMessages() {
         prefix = config.getString("messages.prefix", "[ErrorPrefix] ");
-        combatMessage = getPrefixedMessage("messages.in-combat");
-        outCombatMessage = getPrefixedMessage("messages.out-combat");
         cooldownItems = getPrefixedMessage("messages.cooldown");
         noPermission = getPrefixedMessage("messages.no-perm");
         reloadMessage = getPrefixedMessage("messages.reload");
         cantSpawnInCombat = getPrefixedMessage("messages.combat-spawn");
         teleportedToSpawn = getPrefixedMessage("messages.spawn-teleported");
         cantWhileCombat = getPrefixedMessage("messages.cant-while-combat");
+        joinMessage = getPrefixedMessage("messages.join");
+        deathMessage = getPrefixedMessage("messages.death");
+        killedMessage = getPrefixedMessage("messages.killed");
+        leaveMessage = getPrefixedMessage("messages.leave");
     }
 
     private void loadSettings() {
