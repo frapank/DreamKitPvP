@@ -2,6 +2,7 @@ package com.gourmet.dreamkitpvp;
 
 import com.gourmet.dreamkitpvp.commands.*;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
+import com.gourmet.dreamkitpvp.events.cosmetic.DeathMessageEvent;
 import com.gourmet.dreamkitpvp.events.databases.JoinerDataEvent;
 import com.gourmet.dreamkitpvp.events.databases.KillDataEvent;
 import com.gourmet.dreamkitpvp.events.functional.*;
@@ -70,6 +71,7 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("stats").setExecutor(new StatsCMD());
 
         List<Listener> events = Arrays.asList(
+                new DeathMessageEvent(),
                 new JoinerDataEvent(),
                 new KillDataEvent(),
                 new FoodLostEvent(),
