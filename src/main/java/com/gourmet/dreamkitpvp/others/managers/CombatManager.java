@@ -1,7 +1,6 @@
 package com.gourmet.dreamkitpvp.others.managers;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.Utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -33,11 +32,9 @@ public class CombatManager {
         BukkitTask task = Bukkit.getScheduler().runTaskLater(DreamKitPvP.getInstance(), () -> {
             combatTasks.remove(playerId);
             combatEndTimes.remove(playerId);
-            player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getOutCombatMessage()));
         }, 200L);
 
         combatTasks.put(playerId, task);
-        player.sendMessage(Utils.color(DreamKitPvP.getConfigManager().getCombatMessage()));
     }
 
 
