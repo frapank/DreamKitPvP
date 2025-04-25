@@ -71,13 +71,13 @@ public class KitPlaceHolders extends PlaceholderExpansion {
         //KD
         if(params.equals("kd".toLowerCase())){
             if(DreamKitPvP.getDatabaseManager().getIsOnline()){
-                return "" + playersData.get(player).stats.kd;
+                return "" + Math.round(playersData.get(player).stats.kd * 10.0) / 10.0;
             } else {
                 return "null";
             }
         }
 
-        //KD
+        //Streak
         if(params.equals("streak".toLowerCase())){
             if(DreamKitPvP.getDatabaseManager().getIsOnline()){
                 return "" + playersData.get(player).stats.streak;
