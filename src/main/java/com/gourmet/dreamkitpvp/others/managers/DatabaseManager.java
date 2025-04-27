@@ -1,5 +1,6 @@
 package com.gourmet.dreamkitpvp.others.managers;
 
+import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.Logger;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,12 +18,17 @@ public class DatabaseManager {
 
     final String url = "jdbc:mysql://localhost:3306/kitpvp?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
     final String user = "root";
-    final String pass = "1231";
+    final String pass = DreamKitPvP.getConfigManager().getDatabasePassword();
 
     @Getter
     private final HashMap<Player, PlayerData> playersData = new HashMap<>();
 
     public void setupDatabase() {
+
+        if(pass == null){
+            return;
+        }
+
         final String baseUrl = "jdbc:mysql://localhost:3306/?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8";
         final String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS kitpvp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
 
@@ -40,6 +46,7 @@ public class DatabaseManager {
                         "kd DECIMAL(5,2) DEFAULT 0.00, " +
                         "bounty INT DEFAULT 0, " +
                         "streak INT DEFAULT 0, " +
+                        "bastard INT DEFAULT 0, " +
                         "PRIMARY KEY(name), " +
                         "FOREIGN KEY(name) REFERENCES players(name) ON DELETE CASCADE" +
                         ")";
@@ -63,7 +70,12 @@ public class DatabaseManager {
     }
 
     public void initDatabase() {
-        final String query = "SELECT p.name, p.fragments, s.kills, s.deaths, s.kd, s.bounty " +
+
+        if(pass == null){
+            return;
+        }
+
+        final String query = "SELECT p.name, p.fragments, s.kills, s.deaths, s.kd, s.bounty, s.bastard " +
                 "FROM players p LEFT JOIN statistics s ON p.name = s.name";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
@@ -79,6 +91,7 @@ public class DatabaseManager {
                 int deaths = rs.getInt("deaths");
                 double kd = rs.getDouble("kd");
                 int bounty = rs.getInt("bounty");
+                int bastard = rs.getInt("bastard");
                 Logger.info(String.format(
                         "Utente: %s - Frammenti: %d - Kill: %d, Morti: %d, KD: %.2f, Taglia: %d",
                         username, fragments, kills, deaths, kd, bounty
@@ -127,10 +140,10 @@ public class DatabaseManager {
     }
 
     // Statistics
-    public void updateStatistics(String playerName, int kills, int deaths, double kd, int bounty, int streak) {
+    public void updateStatistics(String playerName, int kills, int deaths, double kd, int bounty, int streak, int bastard) {
         final String query =
-                "INSERT INTO statistics (name, kills, deaths, kd, bounty, streak) VALUES (?, ?, ?, ?, ?, ?) " +
-                        "ON DUPLICATE KEY UPDATE kills = ?, deaths = ?, kd = ?, bounty = ?, streak = ?";
+                "INSERT INTO statistics (name, kills, deaths, kd, bounty, streak, bastard) VALUES (?, ?, ?, ?, ?, ?) " +
+                        "ON DUPLICATE KEY UPDATE kills = ?, deaths = ?, kd = ?, bounty = ?, streak = ?, bastard = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -140,12 +153,16 @@ public class DatabaseManager {
             stmt.setDouble(4, kd);
             stmt.setInt(5, bounty);
             stmt.setInt(6, streak);
-            stmt.setInt(7, kills);
-            stmt.setInt(8, deaths);
-            stmt.setDouble(9, kd);
-            stmt.setInt(10, bounty);
-            stmt.setInt(11, streak);
+            stmt.setInt(7, bastard);
+
+            stmt.setInt(8, kills);
+            stmt.setInt(9, deaths);
+            stmt.setDouble(10, kd);
+            stmt.setInt(11, bounty);
+            stmt.setInt(12, streak);
+            stmt.setInt(13, bastard);
             stmt.executeUpdate();
+
             Logger.info("Statistics updated for " + playerName);
         } catch (SQLException e) {
             Logger.warning("Database error updating statistics: " + e.getMessage());
@@ -166,7 +183,8 @@ public class DatabaseManager {
                             rs.getInt("deaths"),
                             rs.getDouble("kd"),
                             rs.getInt("bounty"),
-                            rs.getInt("streak")
+                            rs.getInt("streak"),
+                            rs.getInt("bastard")
                     );
                 }
             }
@@ -190,6 +208,19 @@ public class DatabaseManager {
         return -1;
     }
 
+    public void decreaseInfamyForAll(int amount) {
+
+        String sql = "UPDATE statistics " +
+                "SET bastard = GREATEST(bastard - ?, 0)";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, amount);
+        } catch (SQLException e) {
+            Logger.warning("Errore decrementando infamia: " + e.getMessage());
+        }
+    }
+
     public static class PlayerStats {
         public final String name;
         public int kills;
@@ -197,14 +228,16 @@ public class DatabaseManager {
         public double kd;
         public int bounty;
         public int streak;
+        public int bastard;
 
-        public PlayerStats(String name, int kills, int deaths, double kd, int bounty, int streak) {
+        public PlayerStats(String name, int kills, int deaths, double kd, int bounty, int streak, int bastard) {
             this.name = name;
             this.kills = kills;
             this.deaths = deaths;
             this.kd = kd;
             this.bounty = bounty;
             this.streak = streak;
+            this.bastard = bastard;
         }
     }
 

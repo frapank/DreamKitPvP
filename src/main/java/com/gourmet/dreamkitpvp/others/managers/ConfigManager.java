@@ -34,6 +34,7 @@ public class ConfigManager {
     String deathMessage;
     String killedMessage;
     String leaveMessage;
+    String databasePassword;
 
     // Numbers
     double verticalMultiplier;
@@ -90,6 +91,8 @@ public class ConfigManager {
     }
 
     private void loadMessages() {
+        databasePassword = getConfig().getString("database.password");
+
         prefix = config.getString("messages.prefix", "[ErrorPrefix] ");
         cooldownItems = getPrefixedMessage("messages.cooldown");
         noPermission = getPrefixedMessage("messages.no-perm");
@@ -101,6 +104,7 @@ public class ConfigManager {
         deathMessage = getPrefixedMessage("messages.death");
         killedMessage = getPrefixedMessage("messages.killed");
         leaveMessage = getPrefixedMessage("messages.leave");
+
     }
 
     private void loadSettings() {

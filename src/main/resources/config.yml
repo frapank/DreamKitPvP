@@ -3,6 +3,9 @@ settings:
   vertical-multiplier: 1.0
   remove-unenchanted: false
 
+database:
+  password: "CHANGE_ME"
+
 block-despawntime: 5
 
 banned-drops:
