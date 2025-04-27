@@ -4,6 +4,7 @@ import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -13,7 +14,7 @@ public class CommandBlockEvent implements Listener {
 
     private final List<String> blockedCommands = DreamKitPvP.getConfigManager().getBlockedCommands();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
 
