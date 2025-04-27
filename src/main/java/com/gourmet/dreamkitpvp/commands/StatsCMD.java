@@ -58,6 +58,7 @@ public class StatsCMD implements CommandExecutor {
                 + ChatColor.GREEN + "Frammenti: " + ChatColor.WHITE + fragments + "\n"
                 + ChatColor.GREEN + "Kills: " + ChatColor.WHITE + stats.kills + "\n"
                 + ChatColor.GREEN + "Morti: " + ChatColor.WHITE + stats.deaths + "\n"
+                + ChatColor.GREEN + "Infamita': " + ChatColor.WHITE + stats.bastard + "\n"
                 + ChatColor.GREEN + "KD: " + ChatColor.WHITE + String.format("%.2f", stats.kd) + "\n"
                 + ChatColor.GREEN + "Taglia: " + ChatColor.WHITE + stats.bounty;
 
