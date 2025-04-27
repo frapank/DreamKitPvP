@@ -18,6 +18,10 @@ public class KillDataEvent implements Listener {
     @EventHandler
     public void onKill(PlayerDeathEvent event){
 
+        if(!databaseManager.getIsOnline()){
+            return;
+        }
+
         Player victim = event.getEntity();
         Player killer = victim.getKiller();
 
@@ -44,8 +48,8 @@ public class KillDataEvent implements Listener {
         double newKillerKD = (killerStats.deaths == 0) ? killerStats.kills : (double) killerStats.kills / killerStats.deaths;
         double newVictimKD = (victimStats.deaths == 0) ? victimStats.kills : (double) victimStats.kills / victimStats.deaths;
 
-        databaseManager.updateStatistics(victim.getName(), victimStats.kills, victimStats.deaths, newVictimKD, victimStats.bounty, victimStats.streak);
-        databaseManager.updateStatistics(killer.getName(), killerStats.kills, killerStats.deaths, newKillerKD, killerStats.bounty, killerStats.streak);
+        databaseManager.updateStatistics(victim.getName(), victimStats.kills, victimStats.deaths, newVictimKD, victimStats.bounty, victimStats.streak, victimStats.bastard);
+        databaseManager.updateStatistics(killer.getName(), killerStats.kills, killerStats.deaths, newKillerKD, killerStats.bounty, killerStats.streak, killerStats.bastard);
     }
 
     private void updateLocalData(Player victim, Player killer){
