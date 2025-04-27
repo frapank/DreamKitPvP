@@ -3,6 +3,7 @@ package com.gourmet.dreamkitpvp;
 import com.gourmet.dreamkitpvp.commands.*;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
 import com.gourmet.dreamkitpvp.events.cosmetic.DeathMessageEvent;
+import com.gourmet.dreamkitpvp.events.databases.BastardTask;
 import com.gourmet.dreamkitpvp.events.databases.JoinerDataEvent;
 import com.gourmet.dreamkitpvp.events.databases.KillDataEvent;
 import com.gourmet.dreamkitpvp.events.functional.*;
@@ -30,6 +31,7 @@ public final class DreamKitPvP extends JavaPlugin {
     @Getter private static CombatManager combatManager;
     @Getter private static CooldownManager cooldownManager;
     @Getter private static DatabaseManager databaseManager;
+    @Getter private static BastardTask bastardTask;
 
     @Override
     public void onEnable() {
@@ -50,6 +52,7 @@ public final class DreamKitPvP extends JavaPlugin {
         buildModePlayer = new HashSet<>();
         configManager = new ConfigManager();
         databaseManager = new DatabaseManager();
+        bastardTask = new BastardTask(databaseManager);
 
         databaseManager.setupDatabase();
         databaseManager.initDatabase();
