@@ -18,12 +18,20 @@ public class JoinerDataEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
 
+        if(!databaseManager.getIsOnline()){
+            return;
+        }
+
         DatabaseManager.PlayerData newPlayer = new DatabaseManager.PlayerData(event.getPlayer(), databaseManager);
         playersData.put(event.getPlayer(), newPlayer);
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
+
+        if(!databaseManager.getIsOnline()){
+            return;
+        }
 
         playersData.remove(event.getPlayer());
     }
