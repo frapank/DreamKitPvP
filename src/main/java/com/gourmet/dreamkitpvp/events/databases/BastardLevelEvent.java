@@ -1,6 +1,7 @@
 package com.gourmet.dreamkitpvp.events.databases;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.gourmet.dreamkitpvp.others.Logger;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager.PlayerStats;
 import org.bukkit.Material;
@@ -12,11 +13,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class BastardLevel implements Listener {
+import static com.gourmet.dreamkitpvp.others.managers.DatabaseManager.*;
+
+public class BastardLevelEvent implements Listener {
 
     private final DatabaseManager databaseManager = DreamKitPvP.getDatabaseManager();
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent event) {
 
         if(!databaseManager.getIsOnline()){
@@ -25,7 +28,10 @@ public class BastardLevel implements Listener {
 
         Player victim = event.getEntity();
         Player killer = victim.getKiller();
-        if (killer == null || killer.equals(victim)) return;
+
+        if (killer == null || killer.equals(victim)) {
+            return;
+        }
 
         double killerPower = calculateGearPower(killer);
         double victimPower = calculateGearPower(victim);
@@ -35,8 +41,11 @@ public class BastardLevel implements Listener {
             if (infamyGain < 1) infamyGain = 1;
 
             PlayerStats stats = databaseManager.getStatistics(killer.getName());
+            PlayerData data = databaseManager.getPlayersData().get(killer);
             if (stats != null) {
+
                 int newBastard = stats.bastard + infamyGain;
+                data.stats.bastard = newBastard;
                 databaseManager.updateStatistics(
                         killer.getName(),
                         stats.kills,
