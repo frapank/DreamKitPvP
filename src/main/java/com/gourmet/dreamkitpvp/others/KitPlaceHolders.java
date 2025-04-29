@@ -98,12 +98,9 @@ public class KitPlaceHolders extends PlaceholderExpansion {
         //bounty
         if(params.equals("bounty".toLowerCase())){
             if(DreamKitPvP.getDatabaseManager().getIsOnline()){
+
                 int bounty = playersData.get(player).stats.bounty;
-                if(bounty <= 0){
-                    return "";
-                } else {
-                    return Utils.color("&6&6[" + bounty + "$]");
-                }
+                return (bounty <= 0) ? Utils.color("&6&6[" + bounty + "$]") : "";
 
             } else {
                 return "null";
