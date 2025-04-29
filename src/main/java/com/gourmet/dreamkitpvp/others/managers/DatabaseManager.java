@@ -124,7 +124,6 @@ public class DatabaseManager {
             stmt.setInt(13, bastard);
             stmt.executeUpdate();
 
-            Logger.info("Statistics updated for " + playerName);
         } catch (SQLException e) {
             Logger.warning("Database error updating statistics: " + e.getMessage());
         }
