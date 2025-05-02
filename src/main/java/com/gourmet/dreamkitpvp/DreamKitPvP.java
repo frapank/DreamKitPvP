@@ -75,6 +75,7 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("stats").setExecutor(new StatsCMD());
 
         List<Listener> events = Arrays.asList(
+                new ArrowRemovalEvent(),
                 new DeathMessageEvent(),
                 new BastardLevelEvent(),
                 new JoinerDataEvent(),
