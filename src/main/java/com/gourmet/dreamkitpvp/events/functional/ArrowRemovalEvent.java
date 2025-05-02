@@ -1,8 +1,9 @@
 package com.gourmet.dreamkitpvp.events.functional;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
+import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,8 +25,27 @@ public class ArrowRemovalEvent implements Listener {
                 public void run() {
                     arrow.remove();
                 }
-            }.runTaskLater(DreamKitPvP.getInstance(), 60L);
+            }.runTaskLater(DreamKitPvP.getInstance(), 40L);
         }
     }
+
+    @EventHandler
+    public void onArrowHit(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Arrow)) return;
+        if (!(event.getEntity() instanceof Player)) return;
+
+        Arrow arrow = (Arrow) event.getDamager();
+        Player hitPlayer = (Player) event.getEntity();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                arrow.remove();
+                Utils.removeStuckArrows(hitPlayer);
+            }
+        }.runTaskLater(DreamKitPvP.getInstance(), 40L);
+    }
+
+
 
 }

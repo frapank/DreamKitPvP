@@ -24,6 +24,21 @@ public class Utils {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
+    public void removeStuckArrows(Player player) {
+        EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+
+        nmsPlayer.getDataWatcher().watch(9, (byte) 0);
+
+        PacketPlayOutEntityMetadata packet = new PacketPlayOutEntityMetadata(
+                nmsPlayer.getId(), nmsPlayer.getDataWatcher(), true
+        );
+
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+        }
+    }
+
+
     @SneakyThrows
     public void spawnParticle(Location location, EnumParticle particle) {
 
