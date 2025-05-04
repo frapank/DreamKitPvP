@@ -35,7 +35,7 @@ public class KillDataEvent implements Listener {
 
         try {
             updateDatabase(victim.getName(), killer.getName());
-            updateLocalData(victim.getName(), killer);
+            updateLocalData(victim, killer);
         } catch (Exception e){
             Logger.warning("Error in database kill management: " + e);
         }
@@ -60,24 +60,15 @@ public class KillDataEvent implements Listener {
         databaseManager.updateStatistics(killerName, killerStats.kills, killerStats.deaths, newKillerKD, killerStats.bounty, killerStats.streak, killerStats.bastard);
     }
 
-    private void updateLocalData(String victimName, Player killer){
+    private void updateLocalData(Player victim, Player killer) {
 
-        DatabaseManager.PlayerData victimData = playersData.get(victimName);
-        DatabaseManager.PlayerData killerData = playersData.get(killer.getName());
-
-        DatabaseManager.PlayerStats victimStats = victimData.stats;
+        DatabaseManager.PlayerData killerData = playersData.get(killer);
         DatabaseManager.PlayerStats killerStats = killerData.stats;
 
-        victimStats.deaths++;
         killerStats.kills++;
-
         killerStats.streak++;
-        victimStats.streak = 0;
 
         double newKillerKD = (killerStats.deaths == 0) ? killerStats.kills : (double) killerStats.kills / killerStats.deaths;
-        double newVictimKD = (victimStats.deaths == 0) ? victimStats.kills : (double) victimStats.kills / victimStats.deaths;
-
-        victimStats.kd = newVictimKD;
         killerStats.kd = newKillerKD;
 
         if (killerStats.streak % 10 == 0) {
@@ -85,5 +76,18 @@ public class KillDataEvent implements Listener {
             Utils.sendActionBar(killer, "&fNew bounty: &6&l" + killerStats.bounty + "$");
         }
 
+        if (victim == null) {
+            return;
+        }
+
+        DatabaseManager.PlayerData victimData = playersData.get(victim);
+        DatabaseManager.PlayerStats victimStats = victimData.stats;
+
+        victimStats.deaths++;
+        victimStats.streak = 0;
+
+        double newVictimKD = (victimStats.deaths == 0) ? victimStats.kills : (double) victimStats.kills / victimStats.deaths;
+        victimStats.kd = newVictimKD;
     }
+
 }
