@@ -7,12 +7,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BuildControllerEvent implements Listener {
-    @EventHandler
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void placeBlockEvent(BlockPlaceEvent event) {
         Block block = event.getBlock();
         if (block.getType() == Material.OBSIDIAN || block.getType() == Material.WEB) return;
@@ -23,7 +25,7 @@ public class BuildControllerEvent implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreakBlock(BlockBreakEvent event) {
         if (!DreamKitPvP.getBuildModePlayer().contains(event.getPlayer())) {
             event.setCancelled(true);
