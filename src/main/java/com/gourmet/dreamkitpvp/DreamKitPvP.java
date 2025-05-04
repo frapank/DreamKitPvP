@@ -3,6 +3,7 @@ package com.gourmet.dreamkitpvp;
 import com.gourmet.dreamkitpvp.commands.*;
 import com.gourmet.dreamkitpvp.custom.ShurEvent;
 import com.gourmet.dreamkitpvp.events.airdrop.AirDropClaimEvent;
+import com.gourmet.dreamkitpvp.events.blackmarket.GuiEvent;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
 import com.gourmet.dreamkitpvp.events.cosmetic.DeathMessageEvent;
 import com.gourmet.dreamkitpvp.events.databases.BastardLevelEvent;
@@ -92,9 +93,11 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SpawnSetCMD());
         getCommand("spawn").setExecutor(new SpawnCMD());
         getCommand("stats").setExecutor(new StatsCMD());
+        getCommand("blk").setExecutor(new BlackMarketCMD());
         getCommand("akab").setExecutor(new AkabCommand());
 
         List<Listener> events = Arrays.asList(
+                new GuiEvent(),
                 new AirDropClaimEvent(),
                 new ShurEvent(),
                 new ArrowRemovalEvent(),
