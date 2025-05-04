@@ -26,31 +26,37 @@ public class CombatManager {
             combatTasks.get(playerId).cancel();
         }
 
-        long endTime = System.currentTimeMillis() + 10000;
+        long endTime = System.currentTimeMillis() + 10_000;
         combatEndTimes.put(playerId, endTime);
 
-        BukkitTask task = Bukkit.getScheduler().runTaskLater(DreamKitPvP.getInstance(), () -> {
-            combatTasks.remove(playerId);
-            combatEndTimes.remove(playerId);
-        }, 200L);
+        BukkitTask task = Bukkit.getScheduler()
+                .runTaskLater(DreamKitPvP.getInstance(), () -> endCombat(player), 200L);
 
         combatTasks.put(playerId, task);
     }
 
+    public void stopCombat(@NonNull Player player) {
+        UUID playerId = player.getUniqueId();
+        if (combatTasks.containsKey(playerId)) {
+            combatTasks.get(playerId).cancel();
+            combatTasks.remove(playerId);
+            combatEndTimes.remove(playerId);
+        }
+    }
+
+    private void endCombat(@NonNull Player player) {
+        UUID playerId = player.getUniqueId();
+        combatTasks.remove(playerId);
+        combatEndTimes.remove(playerId);
+    }
 
     public int getRemainingCombatTime(@NonNull Player player) {
         UUID playerId = player.getUniqueId();
-
-        if (!combatEndTimes.containsKey(playerId)) {
-            return 0;
-        }
+        if (!combatEndTimes.containsKey(playerId)) return 0;
 
         long remainingMillis = combatEndTimes.get(playerId) - System.currentTimeMillis();
-        long remainingSeconds = remainingMillis / 1000;
-
-        return (int) (remainingSeconds > 0 ? remainingSeconds : 0);
+        return (int) Math.max(0, remainingMillis / 1_000);
     }
-
 
     public boolean isPlayerInCombat(@NonNull Player player) {
         return combatTasks.containsKey(player.getUniqueId());

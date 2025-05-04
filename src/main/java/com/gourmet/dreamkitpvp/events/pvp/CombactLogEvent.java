@@ -1,24 +1,32 @@
 package com.gourmet.dreamkitpvp.events.pvp;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.gourmet.dreamkitpvp.others.Utils;
 import com.gourmet.dreamkitpvp.others.managers.CombatManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class CombactLogEvent implements Listener {
 
     private final CombatManager combatManager = DreamKitPvP.getCombatManager();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
 
         Player damaged = (Player) event.getEntity();
+
+        if(Utils.isInNoHitZone(damaged)){
+            Utils.sendActionBar(damaged.getKiller(), Utils.color("&cNon puoi qui"));
+            return;
+        }
 
         if (event.getDamager() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getDamager();
@@ -34,6 +42,11 @@ public class CombactLogEvent implements Listener {
             combatManager.startCombat(damaged);
             combatManager.startCombat(damager);
         }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event){
+        combatManager.stopCombat(event.getEntity());
     }
 
 }
