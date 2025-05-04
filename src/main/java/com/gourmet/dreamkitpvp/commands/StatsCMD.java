@@ -1,11 +1,9 @@
 package com.gourmet.dreamkitpvp.commands;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
-import com.gourmet.dreamkitpvp.others.Logger;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager.PlayerData;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager.PlayerStats;
-import com.mysql.jdbc.log.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
