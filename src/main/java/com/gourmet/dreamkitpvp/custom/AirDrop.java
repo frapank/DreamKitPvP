@@ -4,42 +4,27 @@ import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.Logger;
 import com.gourmet.dreamkitpvp.others.Utils;
 import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-@UtilityClass
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AirDrop {
 
-
-    ConfigManager config = DreamKitPvP.getConfigManager();
-    Location currentLocation;
-    Location newLocation;
-    List<BukkitTask> activeParticleTasks = new ArrayList<>();
+    private final ConfigManager config = DreamKitPvP.getConfigManager();
+    private ArmorStand armorStand;
+    private BukkitRunnable effectTask;
 
     public void spawnDrop(Location location) {
+
         World world = location.getWorld();
         if (world == null) return;
 
-        ArmorStand armorStand = world.spawn(location, ArmorStand.class);
+        armorStand = world.spawn(location, ArmorStand.class);
         armorStand.setGravity(false);
         armorStand.setVisible(false);
         armorStand.setSmall(true);
@@ -61,7 +46,7 @@ public class AirDrop {
         new BukkitRunnable() {
             @Override
             public void run() {
-                currentLocation = armorStand.getLocation();
+                Location currentLocation = armorStand.getLocation();
 
                 if (currentLocation.getBlock().getType() != Material.AIR || armorStand.isDead()) {
                     try {
@@ -70,20 +55,20 @@ public class AirDrop {
                         Logger.warning("Config error sound <end-sound>: " + e);
                     }
 
-                    knockbackEntities(armorStand.getLocation(), 5, 2);
+                    knockbackEntities(currentLocation, 5, 2);
+                    startLavaParticleEffect();
 
-                    startLavaParticleEffect(armorStand);
-
+                    cleanup();
                     this.cancel();
                     return;
                 }
 
-                if(!soundFall.isEmpty()){
+                if (!soundFall.isEmpty()) {
                     try {
                         armorStand.getWorld().playSound(currentLocation, Sound.valueOf(soundFall), 1.0f, 1.0f);
                     } catch (IllegalArgumentException e) {
                         Logger.warning("Config error sound <fall-sound>: " + e);
-                        armorStand.remove();
+                        cleanup();
                         this.cancel();
                         return;
                     }
@@ -93,8 +78,8 @@ public class AirDrop {
                 double deltaZ = 0.1;
                 double deltaY = 0.6;
 
-                newLocation = currentLocation.add(deltaX, -deltaY, deltaZ);
-                newLocation.setYaw((float) (armorStand.getLocation().getYaw() + 10));
+                Location newLocation = currentLocation.add(deltaX, -deltaY, deltaZ);
+                newLocation.setYaw(armorStand.getLocation().getYaw() + 10);
 
                 armorStand.getWorld().spigot().playEffect(newLocation, Effect.LARGE_SMOKE, 0, 0, 0.1f, 0.3f, 0.1f, 0.05f, 10, 64);
                 armorStand.getWorld().spigot().playEffect(newLocation, Effect.FLAME, 0, 0, 0.1f, 0.3f, 0.1f, 0.05f, 5, 64);
@@ -105,23 +90,11 @@ public class AirDrop {
         }.runTaskTimer(DreamKitPvP.getInstance(), 0, 5);
     }
 
-
-
-    private void knockbackEntities(Location location, double radius, double strength) {
-        List<Entity> entities = location.getWorld().getEntities();
-        for (Entity entity : entities) {
-            if (entity.getLocation().distance(location) <= radius) {
-                Vector knockback = entity.getLocation().toVector().subtract(location.toVector()).normalize().multiply(strength);
-                entity.setVelocity(knockback);
-            }
-        }
-    }
-
-    private void startLavaParticleEffect(ArmorStand armorStand) {
-        BukkitTask task = new BukkitRunnable() {
+    private void startLavaParticleEffect() {
+        effectTask = new BukkitRunnable() {
             @Override
             public void run() {
-                if (armorStand.isDead() || armorStand.getLocation().getBlock().getType() == Material.AIR) {
+                if (armorStand == null || armorStand.isDead() || armorStand.getLocation().getBlock().getType() == Material.AIR) {
                     this.cancel();
                     return;
                 }
@@ -132,15 +105,35 @@ public class AirDrop {
                     world.spigot().playEffect(location, Effect.LAVA_POP, 0, 0, 0.5f, 0.5f, 0.5f, 0.05f, 10, 64);
                 }
             }
-        }.runTaskTimer(DreamKitPvP.getInstance(), 0, 20);
-
-        activeParticleTasks.add(task);
+        };
+        effectTask.runTaskTimer(DreamKitPvP.getInstance(), 0, 20);
     }
 
-    public void removeAllParticles() {
-        for (BukkitTask task : activeParticleTasks) {
-            task.cancel();
+    private void cleanup() {
+        if (effectTask != null) {
+            effectTask.cancel();
         }
-        activeParticleTasks.clear();
+
+        if (armorStand != null && !armorStand.isDead()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    armorStand.remove();
+                }
+            }.runTaskLater(DreamKitPvP.getInstance(), 100L);
+        }
+
+        armorStand = null;
+        effectTask = null;
+    }
+
+    private void knockbackEntities(Location location, double radius, double strength) {
+        List<Entity> entities = location.getWorld().getEntities();
+        for (Entity entity : entities) {
+            if (entity.getLocation().distance(location) <= radius) {
+                Vector knockback = entity.getLocation().toVector().subtract(location.toVector()).normalize().multiply(strength);
+                entity.setVelocity(knockback);
+            }
+        }
     }
 }
