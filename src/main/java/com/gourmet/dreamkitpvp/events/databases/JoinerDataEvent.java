@@ -4,6 +4,7 @@ import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -15,7 +16,7 @@ public class JoinerDataEvent implements Listener {
     private final DatabaseManager databaseManager = DreamKitPvP.getDatabaseManager();
     private final HashMap<Player, DatabaseManager.PlayerData> playersData = DreamKitPvP.getDatabaseManager().getPlayersData();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event){
 
         if(!databaseManager.getIsOnline()){
