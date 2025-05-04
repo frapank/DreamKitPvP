@@ -3,8 +3,6 @@ package com.gourmet.dreamkitpvp.others;
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.sk89q.worldguard.bukkit.RegionContainer;
-import com.sk89q.worldguard.bukkit.RegionQuery;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
@@ -17,8 +15,11 @@ import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
@@ -55,22 +56,34 @@ public class Utils {
         }
     }
 
-    public void removeAllArmorStand(){
-        try{
-            List<ArmorStand> armorStands = (List<ArmorStand>) DreamKitPvP.getConfigManager().getSpawn().getWorld().getEntitiesByClass(ArmorStand.class);
-            for(ArmorStand armorStand : armorStands){
-                if(armorStand.getCustomName() != null &&
-                        (armorStand.getCustomName().equals(Utils.color(DreamKitPvP.getConfigManager().getAirDropName())) ||
-                                armorStand.getCustomName().equals(Utils.color("&dMeteora")))){
+    public void removeAllArmorStand() {
+        try {
+            String configName = ChatColor.stripColor(Utils.color(DreamKitPvP.getConfigManager().getAirDropName()));
 
-                    armorStand.remove();
+            for (World world : Bukkit.getWorlds()) {
+                for (Entity entity : world.getEntities()) {
+                    if (!(entity instanceof ArmorStand)) continue;
+
+                    ArmorStand armorStand = (ArmorStand) entity;
+                    String name = armorStand.getCustomName();
+                    if (name == null) continue;
+
+                    String strippedName = ChatColor.stripColor(name);
+
+                    if (strippedName.equalsIgnoreCase(configName) || strippedName.equalsIgnoreCase("Meteora")) {
+                        armorStand.remove();
+                    }
                 }
             }
-        } catch (NullPointerException e){
-            Logger.warning("World exeption: " + e);
+
+        } catch (Exception e) {
+            Logger.warning("Errore nella rimozione degli ArmorStand: " + e.getMessage());
         }
     }
 
+
+
+    List<ArmorStand> armorStands = (List<ArmorStand>) DreamKitPvP.getConfigManager().getSpawn().getWorld().getEntitiesByClass(ArmorStand.class);
     @SneakyThrows
     public void spawnParticle(Location location, @NonNull EnumParticle particle) {
 
@@ -171,5 +184,26 @@ public class Utils {
         skull.setItemMeta(meta);
         return skull;
     }
+
+    public static ItemStack addNBT(ItemStack item, String key, String value) {
+        net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+
+        NBTTagCompound tag = (nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound());
+
+        tag.setString(key, value);
+        nmsItem.setTag(tag);
+
+        return CraftItemStack.asBukkitCopy(nmsItem);
+    }
+
+
+    public static boolean hasNBT(ItemStack item, String key) {
+        net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+
+        if (!nmsItem.hasTag()) return false;
+
+        return nmsItem.getTag().hasKey(key);
+    }
+
 
 }
