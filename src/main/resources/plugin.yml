@@ -16,3 +16,5 @@ commands:
     help: "/stats"
   akab:
     help: "/akab"
+  blk:
+    help: "/blk"
