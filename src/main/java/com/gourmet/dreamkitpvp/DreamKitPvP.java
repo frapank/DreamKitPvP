@@ -1,6 +1,8 @@
 package com.gourmet.dreamkitpvp;
 
 import com.gourmet.dreamkitpvp.commands.*;
+import com.gourmet.dreamkitpvp.custom.ShurEvent;
+import com.gourmet.dreamkitpvp.events.airdrop.AirDropClaimEvent;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
 import com.gourmet.dreamkitpvp.events.cosmetic.DeathMessageEvent;
 import com.gourmet.dreamkitpvp.events.databases.BastardLevelEvent;
@@ -14,6 +16,8 @@ import com.gourmet.dreamkitpvp.others.managers.CombatManager;
 import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
 import com.gourmet.dreamkitpvp.others.managers.CooldownManager;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,12 +37,16 @@ public final class DreamKitPvP extends JavaPlugin {
     @Getter private static CooldownManager cooldownManager;
     @Getter private static DatabaseManager databaseManager;
     @Getter private static BastardTask bastardTask;
+    @Getter private static WorldEditPlugin we;
+    @Getter private static WorldGuardPlugin wg;
+
 
     @Override
     public void onEnable() {
         Logger.watch("&fLoading...");
 
         saveDefaultConfig();
+        initWorldEdit();
         setupInstance();
         initPlaceHolderApi();
         initCommandsAndEvents();
@@ -57,6 +65,17 @@ public final class DreamKitPvP extends JavaPlugin {
 
         databaseManager.setupDatabase();
         databaseManager.initDatabase();
+
+        Utils.removeAllArmorStand();
+    }
+
+    private void initWorldEdit(){
+        we = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
+        wg = (WorldGuardPlugin) getServer().getPluginManager().getPlugin("WorldGuard");
+        if (we == null || wg == null) {
+            Logger.warning("WorldEdit and WorldGuard not found");
+            getServer().getPluginManager().disablePlugin(this);
+        }
     }
 
     private void initPlaceHolderApi(){
@@ -73,8 +92,11 @@ public final class DreamKitPvP extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SpawnSetCMD());
         getCommand("spawn").setExecutor(new SpawnCMD());
         getCommand("stats").setExecutor(new StatsCMD());
+        getCommand("akab").setExecutor(new AkabCommand());
 
         List<Listener> events = Arrays.asList(
+                new AirDropClaimEvent(),
+                new ShurEvent(),
                 new ArrowRemovalEvent(),
                 new DeathMessageEvent(),
                 new BastardLevelEvent(),
