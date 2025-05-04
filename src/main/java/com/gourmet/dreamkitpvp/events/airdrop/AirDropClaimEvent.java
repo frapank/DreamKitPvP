@@ -4,6 +4,7 @@ import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.Logger;
 import com.gourmet.dreamkitpvp.others.Utils;
 import com.gourmet.dreamkitpvp.others.managers.ConfigManager;
+import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -17,11 +18,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 
+import javax.xml.crypto.Data;
 import java.util.Random;
 
 public class AirDropClaimEvent implements Listener {
 
-    ConfigManager config = DreamKitPvP.getConfigManager();
+    private final ConfigManager config = DreamKitPvP.getConfigManager();
+    private final DatabaseManager databaseManager = DreamKitPvP.getDatabaseManager();
 
     @EventHandler
     public void armorStandEvent(PlayerArmorStandManipulateEvent event) {
@@ -92,7 +95,18 @@ public class AirDropClaimEvent implements Listener {
         Random random = new Random();
         int randomNumber = random.nextInt(10) + 1;
         if(randomNumber <= 3){
-            //Dare un frammento
+
+            try {
+                int currentFragments = databaseManager.getFragmentByName(player.getName());
+                int newFragments = currentFragments++;
+
+                databaseManager.updateFragments(player.getName(), newFragments);
+                databaseManager.getPlayersData().get(player).fragments = newFragments;
+            } catch (Exception e){
+                Logger.warning("Cant give fragments to player: " + e);
+            }
+
+
             Utils.sendActionBar(player, Utils.color("&9Hai ottenuto 1 frammento"));
             return;
         }
