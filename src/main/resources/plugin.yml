@@ -1,7 +1,7 @@
 name: DreamKitPvP
 version: '${version}'
 main: com.gourmet.dreamkitpvp.DreamKitPvP
-softdepend: ["PlaceholderAPI"]
+softdepend: ["PlaceholderAPI", "WorldEdit", "WorldGuard"]
 
 commands:
   build:
@@ -14,3 +14,5 @@ commands:
     help: "/spawn"
   stats:
     help: "/stats"
+  akab:
+    help: "/akab"

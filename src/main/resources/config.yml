@@ -3,6 +3,21 @@ settings:
   vertical-multiplier: 1.0
   remove-unenchanted: false
 
+air-drop:
+  name: '&6Meteora'
+  block: "DIAMOND_BLOCK"
+  skull-head: true
+  skull-id: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWM5ZTZiZmRjYmUyOTdiNTNjZTFmMTI3YTJhZjNjYjk1Mzk0MTVjNDE4MTM4ZmQxYmRkYTU3MjQyYzY5ZWRkIn19fQ=="
+  spawn-count: 13
+  spawn-time: 6
+
+#questi 5
+  fall-sound: NOTE_PLING
+  end-sound: LEVEL_UP
+  claim-sound: EXPLODE
+  particel-up: FLAME
+  claim-effect: SMOKE_NORMAL
+
 database:
   password: "CHANGE_ME"
 
@@ -19,7 +34,7 @@ blocked-commands:
   - kit
 
 messages:
-  prefix: "&f[&e☾&f] &8> "
+  prefix: "&f&lDREAM&9&lNETWORK &7»"
   cant-while-combat: "&cNon puoi! Stai in combat"
   no-perm: "&cNon hai il permesso"
   cooldown: "&aMancano ancora &e%seconds%"

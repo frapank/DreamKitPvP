@@ -35,15 +35,26 @@ public class ConfigManager {
     String killedMessage;
     String leaveMessage;
     String databasePassword;
+    String airDropHeadUUID;
+    String airDropBlockID;
+    String airDropName;
+    String airDropFallSound;
+    String airDropLevelUp;
+    String airDropExplode;
+    String airDropParticleUp;
+    String claimEffect;
 
     // Numbers
     double verticalMultiplier;
     double horizontalMultiplier;
     int despawnTime;
+    int airDropDespawnTime;
+    int airDropCount;
 
     // Booleans
     boolean removeUnenchanted;
     boolean spawnEnabled;
+    boolean useAirDropHead;
 
     //Locations
     Location spawn;
@@ -104,6 +115,15 @@ public class ConfigManager {
         deathMessage = getPrefixedMessage("messages.death");
         killedMessage = getPrefixedMessage("messages.killed");
         leaveMessage = getPrefixedMessage("messages.leave");
+        airDropBlockID = config.getString("air-drop.block");
+        airDropName = config.getString("air-drop.name");
+        airDropHeadUUID = config.getString("air-drop.skull-id");
+        airDropFallSound = config.getString("air-drop.fall-sound");
+        airDropLevelUp = config.getString("air-drop.end-sound");
+        airDropExplode = config.getString("air-drop.claim-sound");
+        airDropParticleUp = config.getString("air-drop.particel-up");
+        claimEffect = config.getString("air-drop.claim-effect");
+
 
     }
 
@@ -112,6 +132,9 @@ public class ConfigManager {
         verticalMultiplier = config.getDouble("vertical-multiplier");
         despawnTime = config.getInt("despawn-time");
         removeUnenchanted = config.getBoolean("settings.remove-unenchanted", true);
+        useAirDropHead = config.getBoolean("air-drop.skull-head", false);
+        airDropCount = config.getInt("air-drop.spawn-count", 0);
+        airDropDespawnTime = config.getInt("air-drop.spawn-time", 0);
     }
 
     private void loadDrops() {

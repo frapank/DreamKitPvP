@@ -1,5 +1,16 @@
 package com.gourmet.dreamkitpvp.others;
 
+import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.sk89q.worldguard.bukkit.RegionContainer;
+import com.sk89q.worldguard.bukkit.RegionQuery;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
@@ -7,9 +18,15 @@ import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.UUID;
 
 @UtilityClass
 public class Utils {
@@ -38,9 +55,24 @@ public class Utils {
         }
     }
 
+    public void removeAllArmorStand(){
+        try{
+            List<ArmorStand> armorStands = (List<ArmorStand>) DreamKitPvP.getConfigManager().getSpawn().getWorld().getEntitiesByClass(ArmorStand.class);
+            for(ArmorStand armorStand : armorStands){
+                if(armorStand.getCustomName() != null &&
+                        (armorStand.getCustomName().equals(Utils.color(DreamKitPvP.getConfigManager().getAirDropName())) ||
+                                armorStand.getCustomName().equals(Utils.color("&dMeteora")))){
+
+                    armorStand.remove();
+                }
+            }
+        } catch (NullPointerException e){
+            Logger.warning("World exeption: " + e);
+        }
+    }
 
     @SneakyThrows
-    public void spawnParticle(Location location, EnumParticle particle) {
+    public void spawnParticle(Location location, @NonNull EnumParticle particle) {
 
         float x = (float) location.getX();
         float y = (float) location.getY();
@@ -58,8 +90,8 @@ public class Utils {
         }
     }
 
-    public void setDurabilityByLevel(ItemStack item, int level) {
-        if (item == null || item.getType() == Material.AIR) return;
+    public void setDurabilityByLevel(@NonNull ItemStack item, int level) {
+        if (item.getType() == Material.AIR) return;
         if (level < 1) level = 1;
         if (level > 4) level = 4;
 
@@ -78,8 +110,8 @@ public class Utils {
         item.setDurability(damage);
     }
 
-    public int getDurabilityLevel(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) {
+    public int getDurabilityLevel(@NonNull ItemStack item) {
+        if (item.getType() == Material.AIR) {
             return 0;
         }
 
@@ -101,4 +133,43 @@ public class Utils {
             return 4;
         }
     }
+
+    public boolean isInNoHitZone(@NonNull Player player) {
+
+        RegionManager rm = DreamKitPvP.getWg().getRegionManager(player.getWorld());
+        if (rm == null) {
+            return false;
+        }
+
+        Location loc = player.getLocation();
+        ApplicableRegionSet set = rm.getApplicableRegions(loc);
+
+        for (ProtectedRegion region : set) {
+            StateFlag.State state = region.getFlag(DefaultFlag.PVP);
+            if (state == StateFlag.State.DENY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ItemStack skullItem(String id) {
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+        String value = id;
+        profile.getProperties().put("textures", new Property("textures", value));
+
+        try {
+            Field profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+
+        skull.setItemMeta(meta);
+        return skull;
+    }
+
 }
