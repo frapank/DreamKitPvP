@@ -81,9 +81,6 @@ public class Utils {
         }
     }
 
-
-
-    List<ArmorStand> armorStands = (List<ArmorStand>) DreamKitPvP.getConfigManager().getSpawn().getWorld().getEntitiesByClass(ArmorStand.class);
     @SneakyThrows
     public void spawnParticle(Location location, @NonNull EnumParticle particle) {
 
