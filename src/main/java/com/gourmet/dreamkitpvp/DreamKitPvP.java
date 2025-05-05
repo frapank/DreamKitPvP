@@ -1,7 +1,7 @@
 package com.gourmet.dreamkitpvp;
 
 import com.gourmet.dreamkitpvp.commands.*;
-import com.gourmet.dreamkitpvp.custom.ShurEvent;
+import com.gourmet.dreamkitpvp.custom.events.RockLaunchEvent;
 import com.gourmet.dreamkitpvp.events.airdrop.AirDropClaimEvent;
 import com.gourmet.dreamkitpvp.events.blackmarket.GuiEvent;
 import com.gourmet.dreamkitpvp.events.cosmetic.DamagerIndicator;
@@ -99,7 +99,7 @@ public final class DreamKitPvP extends JavaPlugin {
         List<Listener> events = Arrays.asList(
                 new GuiEvent(),
                 new AirDropClaimEvent(),
-                new ShurEvent(),
+                new RockLaunchEvent(),
                 new ArrowRemovalEvent(),
                 new DeathMessageEvent(),
                 new BastardLevelEvent(),

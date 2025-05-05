@@ -1,4 +1,4 @@
-package com.gourmet.dreamkitpvp.custom;
+package com.gourmet.dreamkitpvp.custom.events;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
 import com.gourmet.dreamkitpvp.others.Utils;
@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
-public class ShurEvent implements Listener {
+public class RockLaunchEvent implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
