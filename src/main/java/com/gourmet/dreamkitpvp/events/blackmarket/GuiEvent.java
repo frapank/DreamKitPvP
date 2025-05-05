@@ -1,5 +1,6 @@
 package com.gourmet.dreamkitpvp.events.blackmarket;
 
+import com.gourmet.dreamkitpvp.custom.blackmarket.ItemGui;
 import com.gourmet.dreamkitpvp.others.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,6 +37,13 @@ public class GuiEvent implements Listener {
 
         if (Utils.hasNBT(clicked, "special")) {
             player.closeInventory();
+            ItemGui.openBlackMarketItems(player);
+            return;
+        }
+
+        if (Utils.hasNBT(clicked, "rock")) {
+            player.closeInventory();
+            //TODO: Buy the rock
             return;
         }
 
