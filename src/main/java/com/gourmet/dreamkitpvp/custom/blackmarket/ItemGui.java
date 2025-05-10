@@ -17,15 +17,24 @@ public class ItemGui {
     private final String ROCK_ITEM = "rock";
 
     public void openBlackMarketItems(Player player) {
-        Inventory gui = Bukkit.createInventory(null, 27, Utils.color("&d&lBlack Market - Items"));
+        Inventory gui = Bukkit.createInventory(null, 36, Utils.color("&0&lBlack Market"));
 
-        ItemStack purplePane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10);
-        ItemMeta paneMeta = purplePane.getItemMeta();
-        paneMeta.setDisplayName(" ");
-        purplePane.setItemMeta(paneMeta);
+        ItemStack grayPane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
+        ItemMeta grayMeta = grayPane.getItemMeta();
+        grayMeta.setDisplayName(" ");
+        grayPane.setItemMeta(grayMeta);
+
+        ItemStack blackPane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+        ItemMeta blackMeta = blackPane.getItemMeta();
+        blackMeta.setDisplayName(" ");
+        blackPane.setItemMeta(blackMeta);
 
         for (int i = 0; i < gui.getSize(); i++) {
-            gui.setItem(i, purplePane);
+            if (i >= 27) {
+                gui.setItem(i, blackPane);
+            } else {
+                gui.setItem(i, grayPane);
+            }
         }
 
         gui.setItem(11, rockItem());
@@ -39,7 +48,7 @@ public class ItemGui {
         );
 
         ItemMeta meta = skull.getItemMeta();
-        meta.setDisplayName(Utils.color("&d&"));
+        meta.setDisplayName(Utils.color("&d&lSasso"));
         meta.setLore(Arrays.asList(
                 Utils.color("&8Un item lancabbile che infligge"),
                 Utils.color("&8del danno senza curarsi della armatura"),
