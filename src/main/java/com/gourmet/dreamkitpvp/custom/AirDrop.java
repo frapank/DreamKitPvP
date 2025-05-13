@@ -30,7 +30,7 @@ public class AirDrop {
         armorStand.setSmall(true);
 
         if (config.isUseAirDropHead()) {
-            ItemStack skull = Utils.skullItem(config.getAirDropHeadUUID());
+            ItemStack skull = Utils.createHeadItem(config.getAirDropHeadUUID());
             armorStand.setHelmet(skull);
         } else {
             String materialName = config.getAirDropBlockID();

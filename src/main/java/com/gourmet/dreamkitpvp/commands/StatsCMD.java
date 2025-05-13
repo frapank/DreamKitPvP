@@ -1,6 +1,8 @@
 package com.gourmet.dreamkitpvp.commands;
 
 import com.gourmet.dreamkitpvp.DreamKitPvP;
+import com.gourmet.dreamkitpvp.custom.AirDrop;
+import com.gourmet.dreamkitpvp.others.Logger;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager.PlayerData;
 import com.gourmet.dreamkitpvp.others.managers.DatabaseManager.PlayerStats;
@@ -21,12 +23,14 @@ public class StatsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String targetName;
+
+        if (!(sender instanceof Player)) {
+            Logger.warning("Solo i giocatori possono usare /stats senza argomenti.");
+            return true;
+        }
+
         if (args.length == 0) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(ChatColor.RED + "Solo i giocatori possono usare /stats senza argomenti.");
-                return true;
-            }
-            targetName = ((Player) sender).getName();
+            targetName = (sender).getName();
         } else if (args.length == 1) {
             targetName = args[0];
         } else {
@@ -37,6 +41,8 @@ public class StatsCMD implements CommandExecutor {
         PlayerStats stats = null;
         int fragments = -1;
 
+        //Information gathering from database
+        //If there is no player, the return value vould be null
         Player online = Bukkit.getPlayerExact(targetName);
         if (online != null && playersData.containsKey(online)) {
             PlayerData pd = playersData.get(online);
@@ -47,7 +53,7 @@ public class StatsCMD implements CommandExecutor {
             fragments = databaseManager.getFragmentByName(targetName);
         }
 
-        if (stats == null || fragments < 0) {
+        if (stats == null) {
             sender.sendMessage(ChatColor.YELLOW + "Nessun giocatore trovato con il nome: " + targetName);
             return true;
         }
@@ -59,7 +65,6 @@ public class StatsCMD implements CommandExecutor {
                 + ChatColor.GREEN + "Infamita': " + ChatColor.WHITE + stats.bastard + "\n"
                 + ChatColor.GREEN + "KD: " + ChatColor.WHITE + String.format("%.2f", stats.kd) + "\n"
                 + ChatColor.GREEN + "Taglia: " + ChatColor.WHITE + stats.bounty;
-
         sender.sendMessage(msg);
         return true;
     }

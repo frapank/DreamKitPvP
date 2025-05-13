@@ -45,7 +45,7 @@ public class BlackMarketGui {
     }
 
     private ItemStack perkIcon() {
-        ItemStack skull = Utils.skullItem(
+        ItemStack skull = Utils.createHeadItem(
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWIwMGIzNGZlOGIzYzY4YTJlZDVjNTVhYzg0YmYxMWMxN2VlMDI3MDE2OGJiMzMwMTJkMTVhYTU3NDMyNmFiIn19fQ=="
         );
 
@@ -59,13 +59,13 @@ public class BlackMarketGui {
         ));
         skull.setItemMeta(meta);
 
-        skull = Utils.addNBT(skull, PERK_NBT, "0");
+        skull = Utils.addNbtToItem(skull, PERK_NBT, "0");
 
         return skull;
     }
 
     private ItemStack specialIcon() {
-        ItemStack item = Utils.skullItem(
+        ItemStack item = Utils.createHeadItem(
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWZkNDlhNGJhMTRlMTMwMzZhOGRhNjFlNWY1NjEzZmIzOWYxZDg4N2Y4Yjg2YjY1ZjY5ZjQ0NTM4MzNlYzE3ZCJ9fX0="
         );
 
@@ -79,7 +79,7 @@ public class BlackMarketGui {
         ));
         item.setItemMeta(meta);
 
-        item = Utils.addNBT(item, SPECIAL_NBT, "0");
+        item = Utils.addNbtToItem(item, SPECIAL_NBT, "0");
 
         return item;
     }

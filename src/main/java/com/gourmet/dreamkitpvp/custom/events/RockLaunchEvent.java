@@ -23,14 +23,14 @@ public class RockLaunchEvent implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-
         Player player = event.getPlayer();
+
         if (!event.getAction().toString().contains("RIGHT_CLICK") ||
                 player.getItemInHand().getType() != Material.IRON_INGOT) {
             return;
         }
 
-        if(Utils.isInNoHitZone(player)){
+        if(Utils.isInSafeZone(player)){
             Utils.sendActionBar(player, Utils.color("&cNon puoi qui!"));
             return;
         }
@@ -40,7 +40,6 @@ public class RockLaunchEvent implements Listener {
         Location start = player.getEyeLocation();
         start.setY(start.getY() - 0.5);
         Vector direction = start.getDirection().normalize().multiply(1.1);
-
         World world = player.getWorld();
 
         ArmorStand shuriken = (ArmorStand) world.spawnEntity(start, EntityType.ARMOR_STAND);
@@ -48,7 +47,6 @@ public class RockLaunchEvent implements Listener {
         shuriken.setGravity(false);
         shuriken.setMarker(false);
         shuriken.setSmall(true);
-
         shuriken.setHelmet(new ItemStack(Material.STONE_BUTTON));
 
         new BukkitRunnable() {
@@ -57,21 +55,22 @@ public class RockLaunchEvent implements Listener {
 
             @Override
             public void run() {
-                // Qua imposto una durata d 4s
+                // Duration manager
                 if (ticks++ > 90 || shuriken.isDead()) {
                     shuriken.remove();
                     cancel();
                     return;
                 }
 
-                // Linea drittta
+                // Straight line
                 Location loc = shuriken.getLocation().add(velocity);
                 shuriken.teleport(loc);
 
-                //Rotazione gay
+                // Rotation
                 double yawRad = Math.toRadians((ticks * 20) % 360);
                 shuriken.setHeadPose(new EulerAngle(0, yawRad, 0));
 
+                // Interrupt when item touch something
                 if (loc.getBlock().getType().isSolid()) {
                     world.playSound(loc, Sound.ITEM_BREAK, 1f, 1f);
                     shuriken.remove();
@@ -79,6 +78,7 @@ public class RockLaunchEvent implements Listener {
                     return;
                 }
 
+                // Damage player on hit
                 for (Player target : world.getPlayers()) {
                     if (target.equals(player)) continue;
                     if (target.getLocation().distance(loc) < 1.5) {

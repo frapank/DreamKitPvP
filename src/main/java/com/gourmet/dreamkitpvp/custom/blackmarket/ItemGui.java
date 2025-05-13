@@ -43,7 +43,7 @@ public class ItemGui {
     }
 
     private ItemStack rockItem() {
-        ItemStack skull = Utils.skullItem(
+        ItemStack skull = Utils.createHeadItem(
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjhkODE4ZTY1ZWUzNmNkY2FiNmUzMTVmNDk5ZDNmNWRkZTIzMjNiZjJkZjU2ZjFlOTE0MDg5Y2ViZWZhMzdmNiJ9fX0="
         );
 
@@ -58,7 +58,7 @@ public class ItemGui {
         ));
         skull.setItemMeta(meta);
 
-        skull = Utils.addNBT(skull, ROCK_ITEM, "0");
+        skull = Utils.addNbtToItem(skull, ROCK_ITEM, "0");
 
         return skull;
     }

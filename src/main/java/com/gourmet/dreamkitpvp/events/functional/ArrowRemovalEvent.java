@@ -41,7 +41,7 @@ public class ArrowRemovalEvent implements Listener {
             @Override
             public void run() {
                 arrow.remove();
-                Utils.removeStuckArrows(hitPlayer);
+                Utils.removeArrowsOnPlayer(hitPlayer);
             }
         }.runTaskLater(DreamKitPvP.getInstance(), 40L);
     }

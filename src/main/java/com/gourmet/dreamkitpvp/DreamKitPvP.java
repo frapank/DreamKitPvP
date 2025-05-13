@@ -112,7 +112,7 @@ public final class DreamKitPvP extends JavaPlugin {
                 new LeaveEvent(),
                 new InstantRespawnEvent(),
                 new CooldownItems(),
-                new CombactLogEvent(),
+                new CombatEvent(),
                 new DropKillRemoveEvent(),
                 new BowBoostEvent(),
                 new BuildControllerEvent(),

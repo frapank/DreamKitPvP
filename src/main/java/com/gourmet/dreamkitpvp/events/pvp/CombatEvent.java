@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class CombactLogEvent implements Listener {
+public class CombatEvent implements Listener {
 
     private final CombatManager combatManager = DreamKitPvP.getCombatManager();
 
@@ -23,11 +23,13 @@ public class CombactLogEvent implements Listener {
 
         Player damaged = (Player) event.getEntity();
 
-        if(Utils.isInNoHitZone(damaged)){
+        //Check if the player is in a safe zone trough worldguard
+        if(Utils.isInSafeZone(damaged)){
             Utils.sendActionBar(damaged.getKiller(), Utils.color("&cNon puoi qui"));
             return;
         }
 
+        //This will start the combat, even if the player was hit by an arrow
         if (event.getDamager() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getDamager();
             if (arrow.getShooter() instanceof Player) {

@@ -7,11 +7,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AxeHitEvent implements Listener {
 
     private final int[] ARMOR_SLOTS = {36, 37, 38, 39};
 
+    //This will increase the damage if the weapons is an axe
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) {
 
@@ -30,8 +32,8 @@ public class AxeHitEvent implements Listener {
 
     }
 
-    private void damage(ItemStack item) {
-        if (item == null | item.getType() == Material.AIR) return;
+    private void damage(@NotNull ItemStack item) {
+        if (item.getType() == Material.AIR) return;
 
         short newDurability = (short) (item.getDurability() + 5);
 

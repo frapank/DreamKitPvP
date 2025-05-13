@@ -26,7 +26,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.UUID;
 
 @UtilityClass
@@ -42,7 +41,7 @@ public class Utils {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
-    public void removeStuckArrows(Player player) {
+    public void removeArrowsOnPlayer(Player player) {
         EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
 
         nmsPlayer.getDataWatcher().watch(9, (byte) 0);
@@ -56,6 +55,7 @@ public class Utils {
         }
     }
 
+    //TODO: Fix this function
     public void removeAllArmorStand() {
         try {
             String configName = ChatColor.stripColor(Utils.color(DreamKitPvP.getConfigManager().getAirDropName()));
@@ -144,7 +144,8 @@ public class Utils {
         }
     }
 
-    public boolean isInNoHitZone(@NonNull Player player) {
+    //Check if the player is in a worldguard safe zone
+    public boolean isInSafeZone(@NonNull Player player) {
 
         RegionManager rm = DreamKitPvP.getWg().getRegionManager(player.getWorld());
         if (rm == null) {
@@ -163,7 +164,7 @@ public class Utils {
         return false;
     }
 
-    public ItemStack skullItem(String id) {
+    public ItemStack createHeadItem(String id) {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), "");
@@ -182,7 +183,7 @@ public class Utils {
         return skull;
     }
 
-    public static ItemStack addNBT(ItemStack item, String key, String value) {
+    public static ItemStack addNbtToItem(ItemStack item, String key, String value) {
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
 
         NBTTagCompound tag = (nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound());

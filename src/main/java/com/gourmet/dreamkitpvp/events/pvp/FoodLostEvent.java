@@ -7,6 +7,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class FoodLostEvent implements Listener {
 
+    //Remove Food Level
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (event.getEntity() instanceof Player) {
