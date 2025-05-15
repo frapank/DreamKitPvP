@@ -29,6 +29,7 @@ public class AxeHitEvent implements Listener {
                 damage(inventory.getItem(slot));
             }
         }
+
     }
 
     private void damage(@NotNull ItemStack item) {
